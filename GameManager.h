@@ -12,11 +12,11 @@ private:
 
 	const int FRAME_RATE = 60; 
 
-	bool kQuit;
+	bool      kQuit;
 	Graphics* kGraphics; 
-	Timer* kTimer; 
+	Timer*    kTimer; 
 	SDL_Event kEvents; 
-	Texture* kTex; 
+	Texture*  kTex; 
 
 public: 
 

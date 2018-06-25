@@ -9,7 +9,7 @@ class Texture : public GameEntity
 private:
 
 	SDL_Texture* kTex; 
-	Graphics* kGraphics; 
+	Graphics*    kGraphics; 
 
 public:
 

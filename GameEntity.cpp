@@ -23,7 +23,7 @@ Vector2 GameEntity::Pos(SPACE space)
 {
 	if (space == local || kParent == NULL)
 		return kPos;
-	
+
 	return kParent->Pos(world) + RotateVector(kPos, kParent->Rotation(local));
 }
 

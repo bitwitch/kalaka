@@ -18,8 +18,8 @@ private:
 	static Graphics* sInstance;
 	static bool sInitialized;
 
-	SDL_Window* kWindow;
-	SDL_Surface* kBackBuffer; 
+	SDL_Window*   kWindow;
+	SDL_Surface*  kBackBuffer; 
 	SDL_Renderer* kRenderer; 
 
 public: 
