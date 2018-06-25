@@ -2,6 +2,7 @@
 #define _GAMEMANAGER_H
 
 #include "Graphics.h"
+#include "Timer.h"
 
 class GameManager 
 {
@@ -9,9 +10,11 @@ private:
 
 	static GameManager* sInstance; 
 
+	const int FRAME_RATE = 60; 
+
 	bool kQuit;
 	Graphics* kGraphics; 
-
+	Timer* kTimer; 
 	SDL_Event kEvents; 
 
 public: 
