@@ -19,10 +19,15 @@ GameManager::GameManager()
 {
 	kQuit     = false; 
 	kGraphics = Graphics::Instance();
-	kTimer    = Timer::Instance(); 
 
 	if (!Graphics::Initialized())
 		kQuit = true; 
+
+	kTimer = Timer::Instance(); 
+
+	std::string path = SDL_GetBasePath();
+	path.append("assets/galaga_spritesheet.png"); 
+	kTex = new Texture(path); 
 }
 
 GameManager::~GameManager()
@@ -32,6 +37,9 @@ GameManager::~GameManager()
 
 	Timer::Release(); 
 	kTimer = NULL; 
+
+	delete kTex; 
+	kTex = NULL; 
 }
 
 void GameManager::Run()
@@ -52,7 +60,11 @@ void GameManager::Run()
 		// only update during framerate 
 		if (kTimer->DeltaTime() >= (1.0f / FRAME_RATE) )
 		{	
-			printf("DeltaTime: %F\n", kTimer->DeltaTime()); 
+			kGraphics->ClearBackBuffer();
+
+			// DRAW CALLS 
+			kTex->Render(); 
+
 			kGraphics->Render(); 
 			kTimer->Reset(); 
 		}

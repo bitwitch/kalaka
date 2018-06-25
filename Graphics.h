@@ -1,7 +1,9 @@
 #ifndef _GRAPHICS_H
 #define _GRAPHICS_H
 
-#include <SDL2/sdl.h>
+#include <SDL2/SDL.h>
+#include <SDL2_image/SDL_image.h>
+#include <string>
 #include <stdio.h>
 
 class Graphics 
@@ -18,6 +20,7 @@ private:
 
 	SDL_Window* kWindow;
 	SDL_Surface* kBackBuffer; 
+	SDL_Renderer* kRenderer; 
 
 public: 
 
@@ -25,6 +28,9 @@ public:
 	static void Release(); 
 	static bool Initialized(); 
 
+	SDL_Texture* LoadTexture(std::string path); 
+	void ClearBackBuffer();
+	void DrawTexture(SDL_Texture* tex); 
 	void Render(); 
 
 private: 

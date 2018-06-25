@@ -4,7 +4,7 @@
 #include <math.h> 
 
 #define   PI           3.14159265
-#define   DEG_TO_RAD   PI / 180.0f; 
+#define   DEG_TO_RAD   PI / 180.0f 
 
 struct Vector2 {
 	float x; 
@@ -40,7 +40,7 @@ inline Vector2 operator -(const Vector2& lhs, const Vector2& rhs)
 	return Vector2(lhs.x - rhs.x, lhs.y - rhs.y); 
 }
 
-Vector2 RotateVector(Vector2& vec, float angle)
+inline Vector2 RotateVector(Vector2& vec, float angle)
 {
 	float radAngle = (float)(angle*DEG_TO_RAD); 
 	return Vector2((float)(vec.x * cos(radAngle) - vec.y * sin(radAngle)), (float)(vec.x * sin(radAngle) + vec.y * cos(radAngle))); 

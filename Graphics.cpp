@@ -10,7 +10,6 @@ Graphics* Graphics::Instance()
 	return sInstance; 
 }
 
-
 void Graphics::Release() 
 {
 	delete sInstance; 
@@ -33,6 +32,11 @@ Graphics::~Graphics()
 {
 	SDL_DestroyWindow(kWindow); 
 	kWindow = NULL; 
+
+	SDL_DestroyRenderer(kRenderer); 
+	kRenderer = NULL;
+
+	IMG_Quit(); 
 	SDL_Quit(); 
 }
 
@@ -40,15 +44,30 @@ bool Graphics::Init()
 {	
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) 
 	{
-		printf("SDL Initialization Error: %s\n", SDL_GetError); 
+		printf("SDL Initialization Error: %s\n", SDL_GetError()); 
 		return false;
 	}
 	
 	kWindow = SDL_CreateWindow("Kalaka", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN); 
-
 	if (kWindow == NULL)
 	{
-		printf("Window Creation Error: %s\n", SDL_GetError); 
+		printf("Window Creation Error: %s\n", SDL_GetError()); 
+		return false; 
+	}
+
+	kRenderer = SDL_CreateRenderer(kWindow, -1, SDL_RENDERER_ACCELERATED); 
+	if (kRenderer == NULL)
+	{
+		printf("Renderer Creation Error: %s\n", SDL_GetError()); 
+		return false; 
+	}
+
+	SDL_SetRenderDrawColor(kRenderer, 0xFF, 0xFF, 0xFF, 0xFF); 
+
+	int flags = IMG_INIT_PNG; 
+	if (!(IMG_Init(flags) & flags))
+	{
+		printf("Image Initialization Error: %s\n", IMG_GetError()); 
 		return false; 
 	}
 
@@ -56,7 +75,40 @@ bool Graphics::Init()
 	return true; 
 }
 
+SDL_Texture* Graphics::LoadTexture(std::string path)
+{
+	SDL_Texture* tex = NULL; 
+
+	SDL_Surface* surface = IMG_Load(path.c_str());
+	if (surface == NULL)
+	{
+		printf("Image Load Error: Path(%s) - Error(%s)\n", path.c_str(), IMG_GetError()); 
+		return tex; 
+	}
+
+	tex = SDL_CreateTextureFromSurface(kRenderer, surface); 
+	if (tex == NULL)
+	{
+		printf("Create Texture Error: Error(%s)\n", SDL_GetError()); 
+		return tex; 
+	}
+
+	SDL_FreeSurface(surface); 
+
+	return tex; 
+}
+
+void Graphics::ClearBackBuffer()
+{
+	SDL_RenderClear(kRenderer); 
+}
+
+void Graphics::DrawTexture(SDL_Texture* tex)
+{
+	SDL_RenderCopy(kRenderer, tex, NULL, NULL); 
+}
+
 void Graphics::Render()
 {
-	SDL_UpdateWindowSurface(kWindow); 
+	SDL_RenderPresent(kRenderer); 
 }
