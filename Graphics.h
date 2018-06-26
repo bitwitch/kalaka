@@ -30,7 +30,7 @@ public:
 
 	SDL_Texture* LoadTexture(std::string path); 
 	void ClearBackBuffer();
-	void DrawTexture(SDL_Texture* tex); 
+	void DrawTexture(SDL_Texture* tex, SDL_Rect* clip = NULL, SDL_Rect* rend = NULL); 
 	void Render(); 
 
 private: 

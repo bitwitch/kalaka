@@ -17,6 +17,7 @@ private:
 	Timer*    kTimer; 
 	SDL_Event kEvents; 
 	Texture*  kTex; 
+	AssetManager* kAssetManager; 
 
 public: 
 

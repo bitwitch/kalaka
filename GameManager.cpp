@@ -25,9 +25,11 @@ GameManager::GameManager()
 
 	kTimer = Timer::Instance(); 
 
-	std::string path = SDL_GetBasePath();
-	path.append("assets/galaga_spritesheet.png"); 
-	kTex = new Texture(path); 
+	kAssetManager = AssetManager::Instance();
+
+	kTex = new Texture("galaga_spritesheet.png", 182, 54, 22, 22); 
+
+	kTex->Pos(Vector2(Graphics::SCREEN_WIDTH*0.5f, Graphics::SCREEN_HEIGHT*0.5f)); 
 }
 
 GameManager::~GameManager()
@@ -37,6 +39,9 @@ GameManager::~GameManager()
 
 	Timer::Release(); 
 	kTimer = NULL; 
+
+	AssetManager::Release(); 
+	kAssetManager = NULL;
 
 	delete kTex; 
 	kTex = NULL; 

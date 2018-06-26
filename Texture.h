@@ -2,18 +2,27 @@
 #define _TEXTURE_H
 
 #include "GameEntity.h"
-#include "Graphics.h"
+#include "AssetManager.h"
 
 class Texture : public GameEntity
 {
 private:
 
+	Graphics* kGraphics; 
 	SDL_Texture* kTex; 
-	Graphics*    kGraphics; 
+
+	int kWidth;
+	int kHeight; 
+	bool kClipped;
+
+	SDL_Rect kRenderRect;
+	SDL_Rect kClipRect; 
+
 
 public:
 
-	Texture(std::string path); 
+	Texture(std::string filename); 
+	Texture(std::string filename, int x, int y, int w, int h); 
 	~Texture();
 
 	virtual void Render(); 
