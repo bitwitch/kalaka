@@ -28,6 +28,27 @@ struct Vector2 {
 		float mag = Magnitude(); 
 		return Vector2(x / mag, y / mag); 
 	}
+
+	Vector2& operator +=(const Vector2& rhs)
+	{
+		x += rhs.x;
+		y += rhs.y;
+		return *this; 
+	}
+
+	Vector2& operator -=(const Vector2& rhs)
+	{
+		x -= rhs.x;
+		y -= rhs.y;
+		return *this; 
+	}
+
+	Vector2& operator *=(const float& rhs)
+	{
+		x *= rhs;
+		y *= rhs;
+		return *this; 
+	}
 }; 
 
 inline Vector2 operator +(const Vector2& lhs, const Vector2& rhs)
@@ -38,6 +59,11 @@ inline Vector2 operator +(const Vector2& lhs, const Vector2& rhs)
 inline Vector2 operator -(const Vector2& lhs, const Vector2& rhs)
 {
 	return Vector2(lhs.x - rhs.x, lhs.y - rhs.y); 
+}
+
+inline Vector2 operator *(const Vector2& lhs, const float& rhs)
+{
+	return Vector2(lhs.x * rhs, lhs.y * rhs); 
 }
 
 inline Vector2 RotateVector(Vector2& vec, float angle)

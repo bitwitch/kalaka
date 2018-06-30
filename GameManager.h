@@ -3,6 +3,7 @@
 
 #include "Texture.h"
 #include "Timer.h"
+#include "InputManager.h"
 
 class GameManager 
 {
@@ -18,6 +19,7 @@ private:
 	SDL_Event kEvents; 
 	Texture*  kTex; 
 	AssetManager* kAssetManager; 
+	InputManager* kInputManager; 
 
 public: 
 

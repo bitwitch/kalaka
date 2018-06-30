@@ -1,15 +1,15 @@
-CC = g++ 
+CC = clang++
 CFLAGS = -g -Wall
+LDFLAGS = -framework SDL2 -framework SDL2_image
 
 src = $(wildcard *.cpp)
 obj = $(src:.cpp=.o)
 
-LDFLAGS = -framework SDL2 -framework SDL2_image
-
 kalaka: $(obj)
-	$(CC) -o $@ $^ $(LDFLAGS)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 clean:
 	rm -f *.o kalaka
+
 run: kalaka
 	./kalaka

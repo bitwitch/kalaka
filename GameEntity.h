@@ -12,6 +12,7 @@ public:
 private:
 
 	Vector2 kPos;
+	Vector2 kVel;
 	float kRotation; 
 	bool kActive; 
 	GameEntity* kParent; 
@@ -26,6 +27,8 @@ public:
 
 	void Rotation(float rotation); 
 	float Rotation(SPACE space=world); 
+
+	void Translate(Vector2 vec); 
 
 	void Active(bool active); 
 	bool Active(); 

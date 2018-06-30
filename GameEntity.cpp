@@ -51,6 +51,11 @@ float GameEntity::Rotation(SPACE space)
 	return kParent->Rotation(world) + kRotation; 
 }
 
+void GameEntity::Translate(Vector2 vec)
+{
+	kPos += vec; 
+}
+
 void GameEntity::Active(bool active)
 {
 	kActive = active; 
