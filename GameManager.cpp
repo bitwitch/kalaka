@@ -29,8 +29,9 @@ GameManager::GameManager()
 
 	kInputManager = InputManager::Instance(); 
 
-	kTex = new Texture("galaga_spritesheet.png", 184, 55, 14, 15);
-
+	// kTex = new Texture("galaga_spritesheet.png", 184, 55, 14, 15);
+	kTex = new AnimatedTexture("galaga_spritesheet.png", 204, 45, 40, 38, 4, 1.5f, AnimatedTexture::horizontal);
+	kTex->WrapMode(AnimatedTexture::once); 
 	kTex->Pos(Vector2(Graphics::SCREEN_WIDTH*0.5f, Graphics::SCREEN_HEIGHT*0.5f)); 
 }
 
@@ -70,6 +71,7 @@ void GameManager::Run()
 		// only update during framerate 
 		if (kTimer->DeltaTime() >= (1.0f / FRAME_RATE) )
 		{	
+			// Input
 			kInputManager->Update(); 
 
 			if (kInputManager->KeyDown(SDL_SCANCODE_W))
@@ -88,6 +90,9 @@ void GameManager::Run()
 			{
 				kTex->Translate(Vector2(40.0f, 0.0f) * kTimer->DeltaTime());
 			}
+
+			// Texure update
+			kTex->Update(); 
 
 			kGraphics->ClearBackBuffer();
 

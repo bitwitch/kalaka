@@ -6,7 +6,7 @@
 
 class Texture : public GameEntity
 {
-private:
+protected:
 
 	Graphics* kGraphics; 
 	SDL_Texture* kTex; 
@@ -17,7 +17,6 @@ private:
 
 	SDL_Rect kRenderRect;
 	SDL_Rect kClipRect; 
-
 
 public:
 

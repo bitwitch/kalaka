@@ -8,7 +8,7 @@
 class InputManager 
 {
 public:
-	enum MOUSE_BUTTON { left=0, right, middle, back, forward };
+	enum MOUSE_BUTTON { left, right, middle, back, forward };
 
 private: 
 	static InputManager* sInstance; 
@@ -38,7 +38,7 @@ public:
 
 	void Update(); 
 	void UpdatePrevInput(); 
-	
+
 private: 
 	InputManager(); 
 	~InputManager(); 

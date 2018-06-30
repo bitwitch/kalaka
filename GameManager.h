@@ -1,8 +1,7 @@
 #ifndef _GAMEMANAGER_H
 #define _GAMEMANAGER_H
 
-#include "Texture.h"
-#include "Timer.h"
+#include "AnimatedTexture.h"
 #include "InputManager.h"
 
 class GameManager 
@@ -17,7 +16,7 @@ private:
 	Graphics* kGraphics; 
 	Timer*    kTimer; 
 	SDL_Event kEvents; 
-	Texture*  kTex; 
+	AnimatedTexture*  kTex; 
 	AssetManager* kAssetManager; 
 	InputManager* kInputManager; 
 
