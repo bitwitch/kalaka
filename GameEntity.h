@@ -35,6 +35,7 @@ public:
 	bool Active(); 
 
 	void Scale(Vector2 scale); 
+	void Scale(float scale); 
 	Vector2 Scale(SPACE space=world);
 
 	void Parent(GameEntity* parent); 

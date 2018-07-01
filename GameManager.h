@@ -22,7 +22,7 @@ private:
 	SDL_Event kEvents; 
 
 	Texture*  kTex;  
-	Texture*  kTexEvil;  
+	Texture*  kTex2;  
 
 public: 
 
@@ -35,6 +35,11 @@ private:
 
 	GameManager(); 
 	~GameManager();
+
+	void EarlyUpdate(); 
+	void Update(); 
+	void Render(); 
+	void LateUpdate(); 
 };
 
 #endif

@@ -48,6 +48,26 @@ AssetManager::~AssetManager()
 		}
 	}
 	kFonts.clear(); 
+
+	// clear music
+	for (auto music : kMusic)
+	{
+		if (music.second != NULL)
+		{
+			Mix_FreeMusic(music.second);
+		}
+	}
+	kMusic.clear(); 
+
+	// clear sfx
+	for (auto sfx : kSFX)
+	{
+		if (sfx.second != NULL)
+		{
+			Mix_FreeChunk(sfx.second);
+		}
+	}
+	kSFX.clear(); 
 }
 
 // Cache Textures
@@ -90,6 +110,7 @@ SDL_Texture* AssetManager::GetText(std::string text, std::string filename, int s
 	return kTexts[key]; 
 } 
 
+// Cache Music
 Mix_Music* AssetManager::GetMusic(std::string filename)
 {
 	std::string fullpath = SDL_GetBasePath(); 
@@ -105,6 +126,7 @@ Mix_Music* AssetManager::GetMusic(std::string filename)
 	return kMusic[fullpath]; 
 }
 
+// Cache SFX
 Mix_Chunk* AssetManager::GetSFX(std::string filename)
 {
 	std::string fullpath = SDL_GetBasePath(); 

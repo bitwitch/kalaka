@@ -13,12 +13,12 @@ public:
 private: 
 	static InputManager* sInstance; 
 
-	Uint8* kPrevKeyState;
+	Uint8* kPrevKeyboardState;
 	const Uint8* kKeyboardState;
-	const Uint8* kKeyboardStates; 
+	int kKeyLength; 
 
 	Uint32 kPrevMouseState; 
-	Uint32 kMouseState; 
+	Uint32 kMouseState;
 
 	int kMouseX; 
 	int kMouseY; 
