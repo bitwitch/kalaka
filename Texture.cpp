@@ -31,6 +31,18 @@ Texture::Texture(std::string filename, int x, int y, int w, int h)
 	kClipRect.h = kHeight; 
 }
 
+Texture::Texture(std::string text, std::string fontpath, int size, SDL_Color color)
+{
+	kGraphics = Graphics::Instance(); 
+	kTex = AssetManager::Instance()->GetText(text, fontpath, size, color); 
+
+	kClipped = false; 
+	SDL_QueryTexture(kTex, NULL, NULL, &kWidth, &kHeight);
+
+	kRenderRect.w = kWidth; 
+	kRenderRect.h = kHeight; 
+}
+
 Texture::~Texture()
 {
 	kTex = NULL; 

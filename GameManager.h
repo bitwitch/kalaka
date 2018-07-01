@@ -16,7 +16,9 @@ private:
 	Graphics* kGraphics; 
 	Timer*    kTimer; 
 	SDL_Event kEvents; 
-	AnimatedTexture*  kTex; 
+
+	Texture*  kTex;  
+
 	AssetManager* kAssetManager; 
 	InputManager* kInputManager; 
 

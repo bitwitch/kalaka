@@ -18,7 +18,8 @@ void AssetManager::Release()
 AssetManager::AssetManager() {}
 
 AssetManager::~AssetManager() 
-{
+{	
+	// clear textures
 	for (auto tex : kTextures)
 	{
 		if (tex.second != NULL)
@@ -27,8 +28,29 @@ AssetManager::~AssetManager()
 		}
 	}
 	kTextures.clear(); 
+
+	// clear texts
+	for (auto text : kTexts)
+	{
+		if (text.second != NULL)
+		{
+			SDL_DestroyTexture(text.second);
+		}
+	}
+	kTexts.clear(); 
+
+	// clear fonts
+	for (auto font : kFonts)
+	{
+		if (font.second != NULL)
+		{
+			TTF_CloseFont(font.second);
+		}
+	}
+	kFonts.clear(); 
 }
 
+// Cache Textures
 SDL_Texture* AssetManager::GetTexture(std::string filename)
 {
 	std::string fullpath = SDL_GetBasePath(); 
@@ -40,4 +62,30 @@ SDL_Texture* AssetManager::GetTexture(std::string filename)
 	return kTextures[fullpath]; 
 }
 
+// Cache Fonts
+TTF_Font* AssetManager::GetFont(std::string filename, int size)
+{
+	std::string fullpath = SDL_GetBasePath(); 
+	fullpath.append("assets/" + filename);
+	std::string key = fullpath + (char)size; 
+	if (kFonts[key] == nullptr)
+	{
+		kFonts[key] = TTF_OpenFont(fullpath.c_str(), size);
+		if (kFonts[key] == nullptr)
+			printf("Font Loading Error: Font-%s Error-$s\n", filename.c_str(), TTF_GetError());
+	}
 
+	return kFonts[key]; 
+}
+
+// Cache Texts
+SDL_Texture* AssetManager::GetText(std::string text, std::string filename, int size, SDL_Color color)
+{
+	TTF_Font* font = GetFont(filename, size);
+	std::string key = text + filename + (char)size + (char)(color.r) + (char)(color.g) + (char)(color.b) + (char)(color.a);
+
+	if (kTexts[key] == nullptr)
+		kTexts[key] = Graphics::Instance()->CreateTextTexture(font, text, color); 
+
+	return kTexts[key]; 
+} 

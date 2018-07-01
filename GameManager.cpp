@@ -30,21 +30,25 @@ GameManager::GameManager()
 	kInputManager = InputManager::Instance(); 
 
 	// kTex = new Texture("galaga_spritesheet.png", 184, 55, 14, 15);
-	kTex = new AnimatedTexture("galaga_spritesheet.png", 204, 45, 40, 38, 4, 1.5f, AnimatedTexture::horizontal);
-	kTex->WrapMode(AnimatedTexture::once); 
+	// kTex = new AnimatedTexture("galaga_spritesheet.png", 204, 45, 40, 38, 4, 1.5f, AnimatedTexture::horizontal);
+	// kTex->WrapMode(AnimatedTexture::once); 
+
+	SDL_Color tan = {190,145,100}; 
+	kTex = new Texture("Kalaka", "ARCADE.otf", 100, tan); 
+
 	kTex->Pos(Vector2(Graphics::SCREEN_WIDTH*0.5f, Graphics::SCREEN_HEIGHT*0.5f)); 
 }
 
 GameManager::~GameManager()
 {
+	AssetManager::Release(); 
+	kAssetManager = NULL;
+
 	Graphics::Release(); 
 	kGraphics = NULL; 
 
 	Timer::Release(); 
 	kTimer = NULL; 
-
-	AssetManager::Release(); 
-	kAssetManager = NULL;
 
 	InputManager::Release(); 
 	kInputManager = NULL;
