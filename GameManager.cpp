@@ -31,14 +31,15 @@ GameManager::GameManager()
 
 	kAudioManager = AudioManager::Instance(); 
 
-	// kTex = new Texture("galaga_spritesheet.png", 184, 55, 14, 15);
+	// kTexEvil = new Texture("galaga_spritesheet.png", 184, 55, 14, 15);
 	// kTex = new AnimatedTexture("galaga_spritesheet.png", 204, 45, 40, 38, 4, 1.5f, AnimatedTexture::horizontal);
 	// kTex->WrapMode(AnimatedTexture::once); 
 
 	SDL_Color tan = {190,145,100}; 
-	kTex = new Texture("Kalaka", "ARCADE.otf", 100, tan); 
+	kTex = new Texture("Kalaka", "ARCADE.otf", 100, tan);
 
-	kTex->Pos(Vector2(Graphics::SCREEN_WIDTH*0.5f, Graphics::SCREEN_HEIGHT*0.5f)); 
+	kTex->Pos(Vector2(Graphics::SCREEN_WIDTH*0.5f, 100)); 
+
 }
 
 GameManager::~GameManager()
@@ -104,13 +105,11 @@ void GameManager::Run()
 			{
 				kAudioManager->PlaySFX("jump4.wav");
 			}
-			// Texure update
-			kTex->Update(); 
-
+			
 			kGraphics->ClearBackBuffer();
 
 			// DRAW CALLS 
-			kTex->Render(); 
+			kTex->Render(); 	
 
 			kGraphics->Render(); 
 			kTimer->Reset(); 

@@ -52,8 +52,12 @@ Texture::~Texture()
 void Texture::Render() 
 {
 	Vector2 pos = Pos(world); 
-	kRenderRect.x = (int)(pos.x - kWidth*0.5f);
-	kRenderRect.y = (int)(pos.y - kHeight*0.5f);
+	Vector2 scale = Scale(world); 
 
-	kGraphics->DrawTexture(kTex, kClipped ? &kClipRect : NULL, &kRenderRect); 
+	kRenderRect.x = (int)(pos.x - kWidth * scale.x * 0.5f);
+	kRenderRect.y = (int)(pos.y - kHeight * scale.x * 0.5f);
+	kRenderRect.w = (int)(kWidth * scale.x);
+	kRenderRect.h = (int)(kHeight * scale.y);
+
+	kGraphics->DrawTexture(kTex, kClipped ? &kClipRect : NULL, &kRenderRect, Rotation(world)); 
 }

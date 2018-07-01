@@ -22,7 +22,7 @@ private:
 	SDL_Event kEvents; 
 
 	Texture*  kTex;  
-
+	Texture*  kTexEvil;  
 
 public: 
 
