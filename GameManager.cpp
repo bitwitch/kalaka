@@ -29,6 +29,8 @@ GameManager::GameManager()
 
 	kInputManager = InputManager::Instance(); 
 
+	kAudioManager = AudioManager::Instance(); 
+
 	// kTex = new Texture("galaga_spritesheet.png", 184, 55, 14, 15);
 	// kTex = new AnimatedTexture("galaga_spritesheet.png", 204, 45, 40, 38, 4, 1.5f, AnimatedTexture::horizontal);
 	// kTex->WrapMode(AnimatedTexture::once); 
@@ -41,6 +43,10 @@ GameManager::GameManager()
 
 GameManager::~GameManager()
 {
+
+	AudioManager::Release(); 
+	kAudioManager = NULL; 
+
 	AssetManager::Release(); 
 	kAssetManager = NULL;
 
@@ -94,7 +100,10 @@ void GameManager::Run()
 			{
 				kTex->Translate(Vector2(40.0f, 0.0f) * kTimer->DeltaTime());
 			}
-
+			else if (kInputManager->KeyDown(SDL_SCANCODE_P))
+			{
+				kAudioManager->PlaySFX("jump4.wav");
+			}
 			// Texure update
 			kTex->Update(); 
 

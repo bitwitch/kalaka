@@ -1,6 +1,6 @@
 CC = clang++
 CFLAGS = -g -Wall
-LDFLAGS = -framework SDL2 -framework SDL2_image -framework SDL2_ttf
+LDFLAGS = -framework SDL2 -framework SDL2_image -framework SDL2_ttf -framework SDL2_mixer
 
 src = $(wildcard *.cpp)
 obj = $(src:.cpp=.o)

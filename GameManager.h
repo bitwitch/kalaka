@@ -3,14 +3,18 @@
 
 #include "AnimatedTexture.h"
 #include "InputManager.h"
+#include "AudioManager.h"
 
 class GameManager 
 {
 private: 
 
 	static GameManager* sInstance; 
-
 	const int FRAME_RATE = 60; 
+
+	AssetManager* kAssetManager; 
+	InputManager* kInputManager; 
+	AudioManager* kAudioManager; 
 
 	bool      kQuit;
 	Graphics* kGraphics; 
@@ -19,8 +23,6 @@ private:
 
 	Texture*  kTex;  
 
-	AssetManager* kAssetManager; 
-	InputManager* kInputManager; 
 
 public: 
 
