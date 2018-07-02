@@ -26,7 +26,7 @@ Texture::Texture(std::string filename, int x, int y, int w, int h)
 	kRenderRect.h = kHeight; 
 
 	kClipRect.x = x; 
-	kClipRect.y = y; 
+	kClipRect.y = y; 	
 	kClipRect.w = kWidth; 
 	kClipRect.h = kHeight; 
 }

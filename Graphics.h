@@ -11,8 +11,9 @@ class Graphics
 {
 public:
 
-	static const int SCREEN_WIDTH  = 1080; 
-	static const int SCREEN_HEIGHT = 720; 
+	static const int SCREEN_WIDTH   = 968; 
+	static const int SCREEN_HEIGHT  = 847;
+	const char* WINDOW_TITLE = "Kalaka";
 
 private: 
 

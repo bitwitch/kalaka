@@ -4,6 +4,7 @@
 #include "AnimatedTexture.h"
 #include "InputManager.h"
 #include "AudioManager.h"
+#include "StartScreen.h"
 
 class GameManager 
 {
@@ -15,14 +16,12 @@ private:
 	AssetManager* kAssetManager; 
 	InputManager* kInputManager; 
 	AudioManager* kAudioManager; 
+	StartScreen*  kStartScreen;
 
 	bool      kQuit;
 	Graphics* kGraphics; 
 	Timer*    kTimer; 
 	SDL_Event kEvents; 
-
-	Texture*  kTex;  
-	Texture*  kTex2;  
 
 public: 
 

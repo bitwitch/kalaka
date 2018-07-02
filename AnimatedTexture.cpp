@@ -11,7 +11,7 @@
 {
 	kTimer = Timer::Instance(); 
 	kStartX = x; 
-	kStartY = y; 
+	kStartY = y;
 	kFrameCount = frameCount; 
 	kAnimationSpeed = animationSpeed; 
 	kTimePerFrame = animationSpeed / kFrameCount; 
@@ -30,6 +30,7 @@ void AnimatedTexture::WrapMode(WRAP_MODE mode)
 
 void AnimatedTexture::Update() 
 {
+	
 	if (!kAnimationDone)
 	{
 		kAnimationTimer += kTimer->DeltaTime(); 
@@ -39,6 +40,7 @@ void AnimatedTexture::Update()
 			if (kWrapMode == loop) 
 			{
 				kAnimationTimer -= kAnimationSpeed;
+				// kAnimationTimer = 0.0f;
 			}
 			else 
 			{
@@ -52,8 +54,8 @@ void AnimatedTexture::Update()
 			kClipRect.x = kStartX + (int)(kAnimationTimer / kTimePerFrame) * kWidth; 
 		}
 		else 
-		{
-			kClipRect.y = kStartY * (int)(kAnimationTimer / kTimePerFrame) * kHeight; 
+		{	
+			kClipRect.y = kStartY + (int)(kAnimationTimer / kTimePerFrame) * kHeight; 
 		}
 	}
 }

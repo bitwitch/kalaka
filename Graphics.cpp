@@ -49,7 +49,7 @@ bool Graphics::Init()
 		return false;
 	}
 	
-	kWindow = SDL_CreateWindow("Kalaka", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN); 
+	kWindow = SDL_CreateWindow(WINDOW_TITLE, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN); 
 	if (kWindow == NULL)
 	{
 		printf("Window Creation Error: %s\n", SDL_GetError()); 
@@ -63,7 +63,7 @@ bool Graphics::Init()
 		return false; 
 	}
 
-	SDL_SetRenderDrawColor(kRenderer, 0xFF, 0xFF, 0xFF, 0xFF); 
+	SDL_SetRenderDrawColor(kRenderer, 0x00, 0x00, 0x00, 0x00); 
 
 	int flags = IMG_INIT_PNG; 
 	if (!(IMG_Init(flags) & flags))

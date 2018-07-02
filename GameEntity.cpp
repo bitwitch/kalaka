@@ -26,7 +26,8 @@ Vector2 GameEntity::Pos(SPACE space)
 		return kPos;
 
 	Vector2 parentScale = kParent->Scale(world); 
-	Vector2 rotPos = RotateVector(Vector2(kPos.x * parentScale.x, kPos.y * parentScale.y), kParent->Rotation(local)); 
+	Vector2 scaledPos = Vector2(kPos.x * parentScale.x, kPos.y * parentScale.y);
+	Vector2 rotPos = RotateVector(scaledPos, kParent->Rotation(local)); 
 
 	return kParent->Pos(world) + rotPos; 
 }
@@ -110,7 +111,8 @@ void GameEntity::Parent(GameEntity* parent)
 			Parent(NULL); 
 
 		Vector2 parentScale = parent->Scale(world); 
-		kPos = RotateVector(Pos(world) - parent->Pos(world), -parent->Rotation(world)); 
+		Vector2 posMinusParent = Vector2(Pos(world) - parent->Pos(world));
+		kPos = RotateVector(posMinusParent, -parent->Rotation(world)); 
 		kPos.x /= parentScale.x; 
 		kPos.y /= parentScale.y; 
 
