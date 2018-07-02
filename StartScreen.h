@@ -3,6 +3,7 @@
 
 #include "AnimatedTexture.h"
 #include "InputManager.h"
+#include "BackgroundStars.h"
 
 // using namespace Ather;
 
@@ -44,6 +45,9 @@ private:
 	float kScrollTotalTime;
 	float kScrollTimer; 
 	bool kScrollDone; 
+
+	// Stars
+	BackgroundStars* kStars; 
 	
 public:
 	StartScreen();

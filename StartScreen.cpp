@@ -79,6 +79,10 @@ StartScreen::StartScreen()
 	kScrollDone = false; 
 
 	Pos(kScrollStart); 
+
+	// Stars
+	kStars = BackgroundStars::Instance(); 
+	kStars->Scroll(true); 
 }
 
 StartScreen::~StartScreen()
@@ -139,7 +143,10 @@ void StartScreen::Update()
 		Pos(Lerp(kScrollStart, kScrollEnd, kScrollTimer / kScrollTotalTime)); 
 
 		if (kScrollTimer >= kScrollTotalTime)
+		{
 			kScrollDone = true; 
+			// kStars->Scroll(false);
+		}
 		
 		if (kInput->KeyPressed(SDL_SCANCODE_UP) || kInput->KeyPressed(SDL_SCANCODE_DOWN))
 		{

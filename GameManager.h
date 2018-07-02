@@ -5,6 +5,7 @@
 #include "InputManager.h"
 #include "AudioManager.h"
 #include "StartScreen.h"
+#include "BackgroundStars.h"
 
 class GameManager 
 {
@@ -17,6 +18,7 @@ private:
 	InputManager* kInputManager; 
 	AudioManager* kAudioManager; 
 	StartScreen*  kStartScreen;
+	BackgroundStars* kStars; 
 
 	bool      kQuit;
 	Graphics* kGraphics; 
