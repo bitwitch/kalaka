@@ -20,6 +20,7 @@ ScreenManager::ScreenManager()
 	kInput = InputManager::Instance(); 
 	kStars = BackgroundStars::Instance(); 
 	kStartScreen = new StartScreen();
+	kPlayScreen = new PlayScreen();
 	kCurrentScreen = start; 
 }
 
@@ -32,6 +33,9 @@ ScreenManager::~ScreenManager()
 
 	delete kStartScreen;
 	kStartScreen = NULL; 
+
+	delete kPlayScreen;
+	kPlayScreen = NULL; 
 }
 
 void ScreenManager::Update()
@@ -49,6 +53,8 @@ void ScreenManager::Update()
 		}
 		break;
 	case play:
+		kPlayScreen->Update(); 
+
 		//NOTE(shaw): do we want to use a key besides escape? this is typically used to close the window.
 		if (kInput->KeyPressed(SDL_SCANCODE_ESCAPE))
 		{
@@ -66,6 +72,9 @@ void ScreenManager::Render()
 	{
 	case start: 
 		kStartScreen->Render(); 
+		break;
+	case play: 
+		kPlayScreen->Render(); 
 		break;
 	}
 }
