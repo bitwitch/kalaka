@@ -15,14 +15,25 @@ StartScreen::StartScreen()
 	kPlayerOne = new Texture("1UP", "emulogic.ttf", 24, ssRed); 
 	kHiScore   = new Texture("HI-Score", "emulogic.ttf", 24, ssRed); 
 	kPlayerTwo = new Texture("2UP", "emulogic.ttf", 24, ssRed); 
+	kPlayerOneScore = new Scoreboard();
+	kPlayerTwoScore = new Scoreboard();
+	kTopScore = new Scoreboard();
 
 	kPlayerOne->Parent(kTopBar);
 	kHiScore->Parent(kTopBar);
 	kPlayerTwo->Parent(kTopBar);
+	kPlayerOneScore->Parent(kTopBar);
+	kPlayerTwoScore->Parent(kTopBar);
+	kTopScore->Parent(kTopBar);
 
 	kPlayerOne->Pos(Vector2(-Graphics::Instance()->SCREEN_WIDTH*0.35f, 0.0f));
 	kPlayerTwo->Pos(Vector2(Graphics::Instance()->SCREEN_WIDTH*0.2f, 0.0f));
 	kHiScore->Pos(Vector2(-40.0f, 0.0f));
+	kPlayerOneScore->Pos(Vector2(-Graphics::Instance()->SCREEN_WIDTH*0.23f, 40.0f));
+	kPlayerTwoScore->Pos(Vector2(Graphics::Instance()->SCREEN_WIDTH*0.32f, 40.0f));
+	kTopScore->Pos(Vector2(Graphics::Instance()->SCREEN_WIDTH*0.05f, 40.0f));
+
+	kTopScore->Score(30000);
 
 	kTopBar->Parent(this); 
 
@@ -96,6 +107,12 @@ StartScreen::~StartScreen()
 	kPlayerTwo = NULL; 
 	delete kHiScore; 
 	kHiScore = NULL; 
+	delete kPlayerOneScore; 
+	kPlayerOneScore = NULL;
+	delete kPlayerTwoScore; 
+	kPlayerTwoScore = NULL;
+	delete kTopScore; 
+	kTopScore = NULL;
 
 	// Free Logo
 	delete kLogo; 
@@ -173,6 +190,9 @@ void StartScreen::Render()
 	kPlayerOne->Render();
 	kPlayerTwo->Render();
 	kHiScore->Render();
+	kPlayerOneScore->Render();
+	kTopScore->Render();
+	kPlayerTwoScore->Render();
 
 	// Logo
 	if (kScrollDone)

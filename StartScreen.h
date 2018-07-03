@@ -4,6 +4,7 @@
 #include "AnimatedTexture.h"
 #include "InputManager.h"
 #include "BackgroundStars.h"
+#include "Scoreboard.h"
 
 // using namespace Ather;
 
@@ -18,6 +19,9 @@ private:
 	Texture* kPlayerOne; 
 	Texture* kHiScore; 
 	Texture* kPlayerTwo; 
+	Scoreboard* kPlayerOneScore;
+	Scoreboard* kTopScore; 
+	Scoreboard* kPlayerTwoScore; 
 
 	// Logo
 	Texture* kLogo;
