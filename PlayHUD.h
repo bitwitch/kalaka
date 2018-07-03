@@ -23,6 +23,12 @@ private:
 	bool kPlayerOneLabelVisible; 
 	Scoreboard* kPlayerOneScore;
 
+	static const int MAX_SHIP_TEXTURES = 5; 
+	GameEntity* kShips;
+	Texture* kShipTextures[MAX_SHIP_TEXTURES]; 
+	int kTotalShips; 
+	Scoreboard* kTotalShipsLabel;
+
 public:
 	PlayHUD();
 	~PlayHUD();
@@ -32,6 +38,8 @@ public:
 
 	void SetHighScore(int score); 
 	void SetPlayerScore(int score); 
+
+	void SetShips(int ships); 
 };
 
 #endif

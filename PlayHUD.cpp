@@ -36,6 +36,22 @@ PlayHUD::PlayHUD()
 	kPlayerOneScore = new Scoreboard(); 
 	kPlayerOneScore->Parent(this); 
 	kPlayerOneScore->Pos(Vector2(88.0f, 144.0f));
+
+	kShips = new GameEntity();
+	kShips->Parent(this); 
+	kShips->Pos(Vector2(-33.0f, 300.0f)); 
+
+	for (int i=0; i<MAX_SHIP_TEXTURES; i++)
+	{
+		kShipTextures[i] = new Texture("galaga_spritesheet.png", 185, 56, 15, 16); 
+		kShipTextures[i]->Parent(kShips); 
+		kShipTextures[i]->Scale(4.0f); 
+		kShipTextures[i]->Pos(Vector2(63.0f * (i % 3), 67.0f * (i / 3) )); 
+	}
+
+	kTotalShipsLabel = new Scoreboard(); 
+	kTotalShipsLabel->Parent(kShips); 
+	kTotalShipsLabel->Pos(Vector2(137.0f, 75.f)); 
 }
 
 PlayHUD::~PlayHUD()
@@ -54,6 +70,17 @@ PlayHUD::~PlayHUD()
 	kPlayerOneLabel = NULL; 
 	delete kPlayerOneScore;
 	kPlayerOneScore = NULL; 
+	delete kShips;
+	kShips = NULL; 
+
+	for (int i=0; i<MAX_SHIP_TEXTURES; i++)
+	{
+		delete kShipTextures[i];
+		kShipTextures[i] = NULL;
+	}
+
+	delete kTotalShipsLabel;
+	kTotalShipsLabel = NULL; 
 }
 
 void PlayHUD::SetHighScore(int score)
@@ -64,6 +91,13 @@ void PlayHUD::SetHighScore(int score)
 void PlayHUD::SetPlayerScore(int score)
 {
 	kPlayerOneScore->Score(score); 
+}
+
+void PlayHUD::SetShips(int ships)
+{
+	kTotalShips = ships; 
+	if (ships > MAX_SHIP_TEXTURES)
+		kTotalShipsLabel->Score(ships);
 }
 
 void PlayHUD::Update()
@@ -87,4 +121,10 @@ void PlayHUD::Render()
 		kPlayerOneLabel->Render(); 
 
 	kPlayerOneScore->Render(); 
+
+	for (int i=0; i<MAX_SHIP_TEXTURES && i < kTotalShips; i++)
+		kShipTextures[i]->Render();
+	
+	if (kTotalShips > MAX_SHIP_TEXTURES)
+		kTotalShipsLabel->Render(); 
 }

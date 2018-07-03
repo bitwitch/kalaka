@@ -5,11 +5,12 @@ PlayScreen::PlayScreen()
 	kTimer = Timer::Instance(); 
 	kInput = InputManager::Instance(); 
 	kStars = BackgroundStars::Instance(); 
+
 	kPlayHUD = new PlayHUD(); 
 	kPlayHUD->Parent(this); 
 	kPlayHUD->Pos(Vector2(Graphics::Instance()->SCREEN_WIDTH*0.85f, Graphics::Instance()->SCREEN_HEIGHT*0.05f));
 	kPlayHUD->SetHighScore(30000); 
-	kPlayHUD->SetPlayerScore(45000); 
+	kPlayHUD->SetShips(3); 
 }
 
 PlayScreen::~PlayScreen()
