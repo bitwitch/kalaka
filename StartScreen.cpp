@@ -82,14 +82,8 @@ StartScreen::StartScreen()
 
 	kBottomBar->Parent(this); 
 
-	// Scroll Vars
-	kScrollStart = Vector2(0.0f, Graphics::Instance()->SCREEN_HEIGHT);
-	kScrollEnd = VEC2_ZERO;
-	kScrollTotalTime = 5.0f;
-	kScrollTimer = 0.0f;
-	kScrollDone = false; 
-
-	Pos(kScrollStart); 
+	// Scroll Animation
+	ResetScroll(); 
 
 	// Stars
 	kStars = BackgroundStars::Instance(); 
@@ -196,7 +190,10 @@ void StartScreen::Render()
 
 	// Logo
 	if (kScrollDone)
+	{
 		kAnimatedLogo->Render(); 
+		// kStars->Scroll(false);
+	}
 	else 
 		kLogo->Render(); 
 
@@ -209,4 +206,20 @@ void StartScreen::Render()
 	kDoom->Render();
 	kDates->Render(); 
 	kRights->Render();
+}
+
+void StartScreen::ResetScroll()
+{
+	kScrollStart = Vector2(0.0f, Graphics::Instance()->SCREEN_HEIGHT);
+	kScrollEnd = VEC2_ZERO;
+	kScrollTotalTime = 5.0f;
+	kScrollTimer = 0.0f;
+	kScrollDone = false; 
+
+	Pos(kScrollStart); 
+}
+
+int StartScreen::SelectedMode()
+{
+	return kSelectedMode;
 }

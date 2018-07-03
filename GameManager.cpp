@@ -31,17 +31,22 @@ GameManager::GameManager()
 
 	kAssetManager = AssetManager::Instance();
 
-	kInputManager = InputManager::Instance(); 
-
 	kAudioManager = AudioManager::Instance(); 
 
-	kStars = BackgroundStars::Instance(); 
+	kInputManager = InputManager::Instance(); 
 
-	kStartScreen = new StartScreen();
+	kScreenManager = ScreenManager::Instance(); 
+
 }
 
 GameManager::~GameManager()
 {
+
+	ScreenManager::Release(); 
+	kScreenManager = NULL; 
+
+	InputManager::Release(); 
+	kInputManager = NULL; 
 
 	AudioManager::Release(); 
 	kAudioManager = NULL; 
@@ -52,36 +57,18 @@ GameManager::~GameManager()
 	Graphics::Release(); 
 	kGraphics = NULL; 
 
-	InputManager::Release(); 
-	kInputManager = NULL;
-
 	Timer::Release(); 
 	kTimer = NULL; 
-
-	BackgroundStars::Release(); 
-	kStars = NULL; 
-
-	delete kStartScreen;
-	kStartScreen = NULL; 
 }
 
 void GameManager::EarlyUpdate()
 {
-	kInputManager->Update(); 
+	kInputManager->Update();
 }
 
 void GameManager::Update()
 {	
-	
-	// Input
-	// if (kInputManager->KeyDown(SDL_SCANCODE_W))
-	// {
-
-	// }
-
-	kStars->Update();
-
-	kStartScreen->Update(); 
+	kScreenManager->Update(); 
 }
 
 // Draw Calls
@@ -89,9 +76,7 @@ void GameManager::Render()
 {
 	kGraphics->ClearBackBuffer();
 
-	kStars->Render();
-
-	kStartScreen->Render(); 
+	kScreenManager->Render(); 
 
 	// Render the current frame
 	kGraphics->Render();
@@ -99,8 +84,8 @@ void GameManager::Render()
 
 void GameManager::LateUpdate()
 {
-	kInputManager->UpdatePrevInput(); 
 	kTimer->Reset(); 
+	kInputManager->UpdatePrevInput(); 
 }
 
 void GameManager::Run()

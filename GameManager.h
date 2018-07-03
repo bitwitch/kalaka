@@ -2,10 +2,9 @@
 #define _GAMEMANAGER_H
 
 #include "AnimatedTexture.h"
-#include "InputManager.h"
 #include "AudioManager.h"
-#include "StartScreen.h"
-#include "BackgroundStars.h"
+#include "InputManager.h"
+#include "ScreenManager.h"
 
 class GameManager 
 {
@@ -15,10 +14,12 @@ private:
 	const int FRAME_RATE = 60; 
 
 	AssetManager* kAssetManager; 
-	InputManager* kInputManager; 
+	
 	AudioManager* kAudioManager; 
-	StartScreen*  kStartScreen;
-	BackgroundStars* kStars; 
+
+	InputManager* kInputManager; 
+
+	ScreenManager* kScreenManager; 
 
 	bool      kQuit;
 	Graphics* kGraphics; 

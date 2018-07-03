@@ -5,6 +5,8 @@
 #include "InputManager.h"
 #include "BackgroundStars.h"
 #include "Scoreboard.h"
+#include "StartScreen.h"
+#include "BackgroundStars.h"
 
 // using namespace Ather;
 
@@ -56,6 +58,9 @@ private:
 public:
 	StartScreen();
 	~StartScreen(); 
+
+	int SelectedMode();
+	void ResetScroll(); 
 
 	void Update();
 	void Render(); 
