@@ -2,6 +2,14 @@
 
 Scoreboard::Scoreboard()
 {
+	SDL_Color offwhite = { 230, 230, 230 }; 
+	kColor = offwhite;
+	Score(0); 
+}
+
+Scoreboard::Scoreboard(SDL_Color color)
+{
+	kColor = color; 
 	Score(0);
 }
 
@@ -25,12 +33,12 @@ void Scoreboard::Score(int score)
 	ClearBoard(); 
 
 	// TODO(shaw): put colors in a common location 
-	SDL_Color offwhite = { 230, 230, 230 }; 
+	
 	if (score == 0)
 	{	
 		for (int i=0; i<2; i++)
 		{
-			kScore.push_back(new Texture("0", "emulogic.ttf", 24, offwhite));
+			kScore.push_back(new Texture("0", "emulogic.ttf", 24, kColor));
 			kScore[i]->Parent(this); 
 			kScore[i]->Pos(Vector2(-24.0f*i, 0.0f)); 
 		}
@@ -41,7 +49,7 @@ void Scoreboard::Score(int score)
 		int lastIndex = str.length() - 1; 
 		for (int i=0; i <= lastIndex; i++)
 		{
-			kScore.push_back(new Texture(str.substr(i, 1), "emulogic.ttf", 24, offwhite));
+			kScore.push_back(new Texture(str.substr(i, 1), "emulogic.ttf", 24, kColor));
 			kScore[i]->Parent(this); 
 			kScore[i]->Pos(Vector2(-24.0f*(lastIndex - i), 0.0f)); 
 		}

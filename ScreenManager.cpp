@@ -50,6 +50,7 @@ void ScreenManager::Update()
 		{
 			kCurrentScreen = play;
 			kStartScreen->ResetScroll(); 
+			kPlayScreen->StartNewGame(); 
 		}
 		break;
 	case play:
