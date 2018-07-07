@@ -4,6 +4,7 @@
 #include "InputManager.h"
 #include "PlayHUD.h"
 #include "BackgroundStars.h"
+#include "Player.h"
 
 class Level : public GameEntity
 {
@@ -15,7 +16,7 @@ private:
 	int kStage; 
 	bool kStageStarted; 
 	float kLabelTimer; 
-	
+
 	Texture* kStageLabel; 
 	Scoreboard* kStageNumber;
 	float kStageLabelOnScreen;
@@ -25,11 +26,13 @@ private:
 	float kReadyLabelOnScreen;
 	float kReadyLabelOffScreen;
 
+	Player* kPlayer; 
+
 private: 
 	void StartStage(); 
 
 public:
-	Level(int stage, PlayHUD* hud); 
+	Level(int stage, PlayHUD* hud, Player* player); 
 	~Level(); 
 
 	void Update(); 

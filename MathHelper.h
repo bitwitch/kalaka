@@ -49,6 +49,11 @@ struct Vector2 {
 		y *= rhs;
 		return *this; 
 	}
+
+	Vector2 operator -() const
+	{
+		return Vector2(-x, -y);
+	}
 }; 
 
 inline Vector2 operator +(const Vector2& lhs, const Vector2& rhs)
@@ -86,9 +91,10 @@ inline Vector2 Lerp(Vector2& start, Vector2& end, float time)
 	return start + dir * mag * time; 
 }
 
-const Vector2 VEC2_ZERO   = Vector2( 0.0f, 0.0f ); 
-const Vector2 VEC2_ONE    = Vector2( 1.0f, 1.0f ); 
-const Vector2 VEC2_UP     = Vector2( 0.0f, 1.0f ); 
-const Vector2 VEC2_RIGHT  = Vector2( 1.0f, 0.0f ); 
+const Vector2 VEC2_ZERO   = Vector2(  0.0f, 0.0f ); 
+const Vector2 VEC2_ONE    = Vector2(  1.0f, 1.0f ); 
+const Vector2 VEC2_UP     = Vector2(  0.0f, 1.0f ); 
+const Vector2 VEC2_RIGHT  = Vector2(  1.0f, 0.0f ); 
+const Vector2 VEC2_LEFT   = Vector2( -1.0f, 0.0f ); 
 
 #endif

@@ -1,6 +1,6 @@
 #include "Level.h"
 
-Level::Level(int stage, PlayHUD* hud)
+Level::Level(int stage, PlayHUD* hud, Player* player)
 {
 	kTimer = Timer::Instance(); 
 	kHUD = hud; 
@@ -17,13 +17,13 @@ Level::Level(int stage, PlayHUD* hud)
 	SDL_Color desatRed = { 201, 31, 8 }; 
 
 	kStageLabel = new Texture("STAGE", "emulogic.ttf", 24, lightBlue); 
-	kStageLabel->Pos(Vector2(Graphics::Instance()->SCREEN_WIDTH*0.34f, Graphics::Instance()->SCREEN_HEIGHT*0.5f));
+	kStageLabel->Pos(Vector2(Graphics::Instance()->SCREEN_WIDTH*0.33f, Graphics::Instance()->SCREEN_HEIGHT*0.5f));
 
 	kStageNumber = new Scoreboard(lightBlue);
 
 	kStageNumber->Score(kStage); 
 	kStageNumber->Parent(this); 
-	kStageNumber->Pos(Vector2(Graphics::Instance()->SCREEN_WIDTH*0.5f, Graphics::Instance()->SCREEN_HEIGHT*0.5f));
+	kStageNumber->Pos(Vector2(Graphics::Instance()->SCREEN_WIDTH*0.45f, Graphics::Instance()->SCREEN_HEIGHT*0.5f));
 
 	kStageLabelOnScreen = 0.0f; 
 	kStageLabelOffScreen = 1.5f;
@@ -34,6 +34,8 @@ Level::Level(int stage, PlayHUD* hud)
 
 	kReadyLabelOnScreen = kStageLabelOffScreen;
 	kReadyLabelOffScreen = kReadyLabelOnScreen + 3.0f;
+
+	kPlayer = player;
 }
 
 Level::~Level()
@@ -47,6 +49,7 @@ Level::~Level()
 	kStageNumber = NULL; 
 	delete kReadyLabel;
 	kReadyLabel = NULL; 
+	kPlayer = NULL; 
 }
 
 void Level::StartStage()
@@ -67,7 +70,11 @@ void Level::Update()
 			if (kStage > 1)
 				StartStage();
 			else if (kLabelTimer >= kReadyLabelOffScreen)
+			{
 				StartStage();
+				kPlayer->Active(true); 
+				kPlayer->Visible(true); 
+			}
 		}
 	}
 }
