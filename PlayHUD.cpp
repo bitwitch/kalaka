@@ -13,6 +13,7 @@ PlayHUD::PlayHUD()
 	// TODO(shaw): find a common location for colors
 	SDL_Color desatRed = { 201, 31, 8 }; 
 
+	// Scoreboard
 	kHighLabel = new Texture("HIGH", "emulogic.ttf", 24, desatRed); 
 	kHighLabel->Parent(this); 
 	kHighLabel->Pos(Vector2(0.0f, 0.0f));
@@ -37,9 +38,10 @@ PlayHUD::PlayHUD()
 	kPlayerOneScore->Parent(this); 
 	kPlayerOneScore->Pos(Vector2(88.0f, 144.0f));
 
+	// Player Lives
 	kShips = new GameEntity();
 	kShips->Parent(this); 
-	kShips->Pos(Vector2(-33.0f, 300.0f)); 
+	kShips->Pos(Vector2(-33.0f, 400.0f)); 
 
 	for (int i=0; i<MAX_SHIP_TEXTURES; i++)
 	{
@@ -52,6 +54,14 @@ PlayHUD::PlayHUD()
 	kTotalShipsLabel = new Scoreboard(); 
 	kTotalShipsLabel->Parent(kShips); 
 	kTotalShipsLabel->Pos(Vector2(137.0f, 75.f)); 
+
+	// Level Flags
+	kFlags = new GameEntity(); 
+	kFlags->Parent(this);
+	kFlags->Pos(Vector2(-49.0f, 600.0f));
+
+	kFlagTimer = 0.0f; 
+	kFlagInterval = 0.25f;
 }
 
 PlayHUD::~PlayHUD()
@@ -81,6 +91,54 @@ PlayHUD::~PlayHUD()
 
 	delete kTotalShipsLabel;
 	kTotalShipsLabel = NULL; 
+
+	delete kFlags;
+	kFlags = NULL; 
+	ClearFlags(); 
+}
+
+void PlayHUD::ClearFlags()
+{
+	for (int i=0; i<kFlagTextures.size(); i++)
+	{
+		delete kFlagTextures[i]; 
+		kFlagTextures[i] = NULL;
+	}
+	kFlagTextures.clear(); 
+}
+
+void PlayHUD::AddNextFlag()
+{	
+	if (kRemainingLevels >= 50)
+		AddFlag("galaga_spritesheet.png", 265, 288, 15, 16, 50);
+	else if (kRemainingLevels >= 30)
+		AddFlag("galaga_spritesheet.png", 289, 288, 15, 16, 30);
+	else if (kRemainingLevels >= 20)
+		AddFlag("galaga_spritesheet.png", 313, 288, 15, 16, 20);
+	else if (kRemainingLevels >= 10)
+		AddFlag("galaga_spritesheet.png", 338, 290, 13, 14, 10);
+	else if (kRemainingLevels >= 5)
+		AddFlag("galaga_spritesheet.png", 361, 290, 7, 14, 5);
+	else
+		AddFlag("galaga_spritesheet.png", 377, 292, 7, 12, 1);
+}
+
+void PlayHUD::AddFlag(std::string filename, int x, int y, int w, int h, int value)
+{	
+	int index = kFlagTextures.size(); 
+	float scale = 4.0f; 
+	
+	if (index > 0)
+		kFlagXOffset += (w * scale * 0.5f) + 2.0f; 
+	
+	kRemainingLevels -= value; 
+	kFlagTextures.push_back(new Texture(filename, x, y, w, h));
+	kFlagTextures[index]->Parent(kFlags); 
+	kFlagTextures[index]->Scale(scale);
+	kFlagTextures[index]->Pos(VEC2_RIGHT*kFlagXOffset); 
+	kFlagXOffset += (w * scale * 0.5f) + 2.0f; 
+
+	kAudio->PlaySFX("flagsound.wav");
 }
 
 void PlayHUD::SetHighScore(int score)
@@ -100,6 +158,13 @@ void PlayHUD::SetShips(int ships)
 		kTotalShipsLabel->Score(ships);
 }
 
+void PlayHUD::SetLevel(int level)
+{
+	ClearFlags(); 
+	kRemainingLevels = level;
+	kFlagXOffset = 0.0f; 
+}
+
 void PlayHUD::Update()
 {
 	kBlinkTimer += kTimer->DeltaTime(); 
@@ -107,6 +172,16 @@ void PlayHUD::Update()
 	{
 		kPlayerOneLabelVisible = !kPlayerOneLabelVisible;
 		kBlinkTimer = 0; 
+	}
+
+	if (kRemainingLevels > 0)
+	{
+		kFlagTimer += kTimer->DeltaTime();
+		if (kFlagTimer >= kFlagInterval)
+		{
+			AddNextFlag(); 
+			kFlagTimer = 0.0f; 
+		}
 	}
 }
 
@@ -127,4 +202,8 @@ void PlayHUD::Render()
 	
 	if (kTotalShips > MAX_SHIP_TEXTURES)
 		kTotalShipsLabel->Render(); 
+
+	for (int i=0; i<kFlagTextures.size(); i++)
+		kFlagTextures[i]->Render(); 
+	
 }

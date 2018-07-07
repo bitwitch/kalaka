@@ -10,7 +10,9 @@ PlayScreen::PlayScreen()
 	kPlayHUD->Parent(this); 
 	kPlayHUD->Pos(Vector2(Graphics::Instance()->SCREEN_WIDTH*0.85f, Graphics::Instance()->SCREEN_HEIGHT*0.05f));
 	kPlayHUD->SetHighScore(30000); 
-	kPlayHUD->SetShips(3); 
+	kPlayHUD->SetShips(33); 
+
+	kPlayHUD->SetLevel(49);
 }
 
 PlayScreen::~PlayScreen()

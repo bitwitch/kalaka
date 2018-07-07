@@ -29,6 +29,18 @@ private:
 	int kTotalShips; 
 	Scoreboard* kTotalShipsLabel;
 
+	GameEntity* kFlags; 
+	std::vector<Texture*> kFlagTextures;
+	int kRemainingLevels;
+	int kFlagXOffset;
+	float kFlagTimer; 
+	float kFlagInterval; 
+
+private:
+	void ClearFlags();
+	void AddNextFlag(); 
+	void AddFlag(std::string filename, int x, int y, int w, int h, int value);
+
 public:
 	PlayHUD();
 	~PlayHUD();
@@ -38,6 +50,8 @@ public:
 
 	void SetHighScore(int score); 
 	void SetPlayerScore(int score); 
+
+	void SetLevel(int level); 
 
 	void SetShips(int ships); 
 };
