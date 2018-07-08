@@ -52,6 +52,8 @@ Level::Level(int stage, PlayHUD* hud, Player* player)
 	kGameOverLabelOnScreen = 1.0f;
 
 	kCurrentState = running; 
+
+	kEnemy = new Enemy(0); 
 }
 
 Level::~Level()
@@ -68,6 +70,9 @@ Level::~Level()
 	kReadyLabel = NULL; 
 	delete kGameOverLabel;
 	kGameOverLabel = NULL; 
+
+	delete kEnemy;
+	kEnemy = NULL; 
 }
 
 void Level::StartStage()
@@ -156,7 +161,8 @@ void Level::Update()
 		HandleStartLabels(); 
 	}
 	else 
-	{
+	{	
+		kEnemy->Update();
 		HandleCollisions();
 
 		if (kPlayerHit)
@@ -184,7 +190,9 @@ void Level::Render()
 		}
 	}
 	else // stage started
-	{
+	{	
+		kEnemy->Render(); 
+		
 		if (kPlayerHit)
 		{
 			if (kPlayerRespawnTimer >= kPlayerRespawnLabelOnScreen)

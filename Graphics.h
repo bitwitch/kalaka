@@ -35,7 +35,11 @@ public:
 	SDL_Texture* CreateTextTexture(TTF_Font* font, std::string text, SDL_Color color);
 
 	void ClearBackBuffer();
+
 	void DrawTexture(SDL_Texture* tex, SDL_Rect* clip = NULL, SDL_Rect* rend = NULL, float angle = 0.0f, SDL_RendererFlip flip = SDL_FLIP_NONE); 
+	
+	void DrawLine(float startX, float startY, float endX, float endY); 
+
 	void Render(); 
 
 private: 

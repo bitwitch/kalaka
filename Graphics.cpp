@@ -136,6 +136,13 @@ void Graphics::DrawTexture(SDL_Texture* tex, SDL_Rect* clip, SDL_Rect* rend, flo
 	SDL_RenderCopyEx(kRenderer, tex, clip, rend, angle, NULL, flip); 
 }
 
+void Graphics::DrawLine(float startX, float startY, float endX, float endY)
+{
+	SDL_SetRenderDrawColor(kRenderer, 255, 255, 255, SDL_ALPHA_OPAQUE); 
+	SDL_RenderDrawLine(kRenderer, startX, startY, endX, endY); 
+	SDL_SetRenderDrawColor(kRenderer, 0, 0, 0, SDL_ALPHA_OPAQUE); 
+}
+
 void Graphics::Render()
 {
 	SDL_RenderPresent(kRenderer); 

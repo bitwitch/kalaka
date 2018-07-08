@@ -23,6 +23,9 @@ PlayScreen::PlayScreen()
 	kLevelStarted = false; 
 
 	kPlayer = NULL;
+
+	// enemy paths are created only once as playscreen is created only once
+	Enemy::CreatePaths(); 
 }
 
 PlayScreen::~PlayScreen()
