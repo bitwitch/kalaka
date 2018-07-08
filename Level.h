@@ -8,6 +8,9 @@
 
 class Level : public GameEntity
 {
+public:
+	enum LEVEL_STATE { running, finished, gameover };
+
 private:
 	Timer* kTimer; 
 	PlayHUD* kHUD; 
@@ -28,12 +31,30 @@ private:
 
 	Player* kPlayer; 
 
+	bool kPlayerHit;
+	float kPlayerRespawnDelay;
+	float kPlayerRespawnTimer; 
+	float kPlayerRespawnLabelOnScreen;  
+
+	Texture* kGameOverLabel; 
+	bool kGameOver; 
+	float kGameOverDelay; 
+	float kGameOverTimer; 
+	float kGameOverLabelOnScreen; 
+
+	LEVEL_STATE kCurrentState;
+
 private: 
 	void StartStage(); 
+	void HandleStartLabels();
+	void HandleCollisions(); 
+	void HandlePlayerDeath(); 
 
 public:
 	Level(int stage, PlayHUD* hud, Player* player); 
 	~Level(); 
+
+	LEVEL_STATE State(); 
 
 	void Update(); 
 	void Render(); 

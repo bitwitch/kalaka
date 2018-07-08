@@ -28,6 +28,17 @@ void AnimatedTexture::WrapMode(WRAP_MODE mode)
 	kWrapMode = mode; 
 }
 
+void AnimatedTexture::ResetAnimation()
+{
+	kAnimationTimer = 0.0f; 
+	kAnimationDone = false;
+}
+
+bool AnimatedTexture::IsAnimating()
+{
+	return !kAnimationDone;
+}
+
 void AnimatedTexture::Update() 
 {
 	

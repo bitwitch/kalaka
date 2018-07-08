@@ -44,7 +44,9 @@ void ScreenManager::Update()
 
 	switch(kCurrentScreen)
 	{
+		
 	case start: 
+
 		kStartScreen->Update(); 
 		if (kInput->KeyPressed(SDL_SCANCODE_RETURN))
 		{
@@ -53,14 +55,14 @@ void ScreenManager::Update()
 			kPlayScreen->StartNewGame(); 
 		}
 		break;
+
 	case play:
+
 		kPlayScreen->Update(); 
 
-		//NOTE(shaw): do we want to use a key besides escape? this is typically used to close the window.
-		if (kInput->KeyPressed(SDL_SCANCODE_ESCAPE))
-		{
-			kCurrentScreen = start; 
-		}
+		if (kPlayScreen->GameOver())
+			kCurrentScreen = start;
+
 		break;
 	}
 }

@@ -50,12 +50,18 @@ void PlayScreen::StartNewGame()
 	kPlayer->Active(false); 
 
 	kStars->Scroll(false); 
+
 	kHUD->SetHighScore(30000); // TODO(shaw): change once we have game saving
 	kHUD->SetShips(kPlayer->Lives()); 
 	kHUD->SetPlayerScore(kPlayer->Score());
+	kHUD->SetLevel(0); 
+
 	kGameStarted = false;
-	kAudio->PlayMusic("startlevel.wav", 0); 
+	kLevelStarted = false; 
+	kLevelStartTimer = 0.0f; 
 	kCurrentStage = 0;
+
+	kAudio->PlayMusic("startlevel.wav", 0); 
 }
 
 void PlayScreen::StartNextLevel()
@@ -67,6 +73,14 @@ void PlayScreen::StartNextLevel()
 	kLevel = new Level(kCurrentStage, kHUD, kPlayer);
 }
 
+bool PlayScreen::GameOver()
+{
+	if (!kLevelStarted)
+		return false;
+	
+	return (kLevel->State() == Level::gameover);
+}
+
 void PlayScreen::Update()
 {	
 	if (kGameStarted)
@@ -75,7 +89,12 @@ void PlayScreen::Update()
 			kHUD->Update(); 
 		
 		if (kLevelStarted)
+		{
 			kLevel->Update();
+			
+			if (kLevel->State() == Level::finished)
+				kLevelStarted = false; 
+		}
 		else
 		{
 			kLevelStartTimer += kTimer->DeltaTime(); 
@@ -84,11 +103,6 @@ void PlayScreen::Update()
 		}
 
 		kPlayer->Update();
-
-		if (kInput->KeyPressed(SDL_SCANCODE_N))
-		{
-			kLevelStarted = false; 
-		}
 	}
 	else 
 	{

@@ -3,6 +3,7 @@
 
 #include "AnimatedTexture.h"
 #include "InputManager.h"
+#include "AudioManager.h"
 
 // using namespace Ather;
 
@@ -11,6 +12,7 @@ class Player : public GameEntity
 private:
 	Timer* kTimer; 
 	InputManager* kInput; 
+	AudioManager* kAudio;
 
 	bool kVisible; 
 	bool kAnimating; 
@@ -19,6 +21,8 @@ private:
 	int kLives; 
 
 	Texture * kShip;
+
+	AnimatedTexture* kDeathAnimation;
 
 	float kMoveSpeed; 
 	Vector2 kMoveBounds; 
@@ -31,10 +35,13 @@ public:
 	~Player();
 
 	void Visible(bool visible);
+	void AddScore(int change); 
+	
 	bool IsAnimating(); 
 	int Score(); 
 	int Lives(); 
-	void AddScore(int change); 
+
+	void WasHit();
 
 	void Update(); 
 	void Render();

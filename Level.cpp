@@ -36,6 +36,22 @@ Level::Level(int stage, PlayHUD* hud, Player* player)
 	kReadyLabelOffScreen = kReadyLabelOnScreen + 3.0f;
 
 	kPlayer = player;
+	
+	kPlayerHit = false; 
+	kPlayerRespawnDelay = 3.0f; 
+	kPlayerRespawnTimer = 0.0f; 
+	kPlayerRespawnLabelOnScreen = 2.0f;
+
+	kGameOverLabel = new Texture("GAME OVER", "emulogic.ttf", 24, desatRed); 
+	kGameOverLabel->Parent(this);
+	kGameOverLabel->Pos(Vector2(Graphics::Instance()->SCREEN_WIDTH*0.37f, Graphics::Instance()->SCREEN_HEIGHT*0.5f));
+
+	kGameOver = false; 
+	kGameOverDelay = 6.0f;
+	kGameOverTimer = 0.0f; 
+	kGameOverLabelOnScreen = 1.0f;
+
+	kCurrentState = running; 
 }
 
 Level::~Level()
@@ -43,13 +59,15 @@ Level::~Level()
 	kTimer = NULL; 
 	kHUD = NULL; 
 	kStars = NULL; 
+	kPlayer = NULL; 
 	delete kStageLabel;
 	kStageLabel = NULL; 
 	delete kStageNumber;
 	kStageNumber = NULL; 
 	delete kReadyLabel;
 	kReadyLabel = NULL; 
-	kPlayer = NULL; 
+	delete kGameOverLabel;
+	kGameOverLabel = NULL; 
 }
 
 void Level::StartStage()
@@ -58,11 +76,9 @@ void Level::StartStage()
 	kStageStarted = true; 
 }
 
-void Level::Update()
+void Level::HandleStartLabels()
 {
-	if (!kStageStarted)
-	{
-		kLabelTimer += kTimer->DeltaTime(); 
+	kLabelTimer += kTimer->DeltaTime(); 
 		if (kLabelTimer >= kStageLabelOffScreen)
 		{
 			kStars->Scroll(true);
@@ -75,6 +91,80 @@ void Level::Update()
 				kPlayer->Active(true); 
 				kPlayer->Visible(true); 
 			}
+		}
+}
+
+void Level::HandleCollisions()
+{
+	if (!kPlayerHit)
+	{
+		// TODO(shaw): implement collisions and replace the button press here
+		if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_X))
+		{
+			kPlayer->WasHit();
+			kHUD->SetShips(kPlayer->Lives());
+			kPlayerHit = true; 
+			kPlayerRespawnTimer = 0.0f; 
+			kPlayer->Active(false); 
+			kStars->Scroll(false);
+		}
+	}
+}
+
+void Level::HandlePlayerDeath()
+{
+	if (!kPlayer->IsAnimating())
+	{
+		if (kPlayer->Lives() > 0)
+		{
+			if (kPlayerRespawnTimer == 0.0f)
+				kPlayer->Visible(false);
+
+			kPlayerRespawnTimer += kTimer->DeltaTime(); 
+
+			if (kPlayerRespawnTimer >= kPlayerRespawnDelay)
+			{
+				kPlayer->Active(true); 
+				kPlayer->Visible(true); 
+				kPlayerHit = false; 
+				kStars->Scroll(true); 
+			}
+		}
+		else // player lives <= 0
+		{
+			if (kGameOverTimer == 0.0f)
+				kPlayer->Visible(false);
+
+			kGameOverTimer += kTimer->DeltaTime(); 
+
+			if (kGameOverTimer >= kGameOverDelay)
+				kCurrentState = gameover;
+		}
+
+	}
+}
+
+Level::LEVEL_STATE Level::State()
+{
+	return kCurrentState;
+}
+
+void Level::Update()
+{
+	if (!kStageStarted)
+	{
+		HandleStartLabels(); 
+	}
+	else 
+	{
+		HandleCollisions();
+
+		if (kPlayerHit)
+			HandlePlayerDeath(); 
+		else 
+		{
+			if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_N))
+				kCurrentState = finished; 
 		}
 	}
 }
@@ -93,5 +183,15 @@ void Level::Render()
 			kReadyLabel->Render();
 		}
 	}
-	// else render all other shit
+	else // stage started
+	{
+		if (kPlayerHit)
+		{
+			if (kPlayerRespawnTimer >= kPlayerRespawnLabelOnScreen)
+				kReadyLabel->Render(); 
+
+			if (kGameOverTimer >= kGameOverLabelOnScreen)
+				kGameOverLabel->Render(); 
+		}
+	}
 }

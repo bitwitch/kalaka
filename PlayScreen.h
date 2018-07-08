@@ -36,6 +36,8 @@ public:
 
 	void StartNewGame(); 
 
+	bool GameOver();
+
 	void Update(); 
 	void Render(); 
 };
