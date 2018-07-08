@@ -15,11 +15,14 @@ PlayScreen::PlayScreen()
 	SDL_Color desatRed = { 201, 31, 8 }; 
 	kStartLabel = new Texture("START", "emulogic.ttf", 24, desatRed); 
 	kStartLabel->Parent(this);
-	kStartLabel->Pos(Vector2(Graphics::Instance()->SCREEN_WIDTH*0.37f, Graphics::Instance()->SCREEN_HEIGHT*0.5f));
+	kStartLabel->Pos(Vector2(Graphics::Instance()->SCREEN_WIDTH*0.38f, Graphics::Instance()->SCREEN_HEIGHT*0.5f));
 
 	kLevel = NULL; 
 
-	kLevelStartDelay = 1.0f; 
+	// kLevelStartDelay = 1.0f; 
+	// NOTE(shaw): DEBUGGING
+	kLevelStartDelay = 0.1f; 
+
 	kLevelStarted = false; 
 
 	kPlayer = NULL;
@@ -49,7 +52,7 @@ void PlayScreen::StartNewGame()
 	delete kPlayer;
 	kPlayer = new Player();
 	kPlayer->Parent(this); 
-	kPlayer->Pos(Vector2(Graphics::Instance()->SCREEN_WIDTH*0.37f, Graphics::Instance()->SCREEN_HEIGHT*0.9f));
+	kPlayer->Pos(Vector2(Graphics::Instance()->SCREEN_WIDTH*0.38f, Graphics::Instance()->SCREEN_HEIGHT*0.9f));
 	kPlayer->Active(false); 
 
 	kStars->Scroll(false); 
@@ -64,7 +67,8 @@ void PlayScreen::StartNewGame()
 	kLevelStartTimer = 0.0f; 
 	kCurrentStage = 0;
 
-	kAudio->PlayMusic("startlevel.wav", 0); 
+	//NOTE(shaw): DEBUGGING
+	// kAudio->PlayMusic("startlevel.wav", 0); 
 }
 
 void PlayScreen::StartNextLevel()

@@ -26,25 +26,38 @@ Level::Level(int stage, PlayHUD* hud, Player* player)
 	kStageNumber->Pos(Vector2(Graphics::Instance()->SCREEN_WIDTH*0.45f, Graphics::Instance()->SCREEN_HEIGHT*0.5f));
 
 	kStageLabelOnScreen = 0.0f; 
-	kStageLabelOffScreen = 1.5f;
+
+	// kStageLabelOffScreen = 1.5f;
+	//NOTE(shaw): DEBUGGING 
+	kStageLabelOffScreen = 0.1f;
 	
 	kReadyLabel = new Texture("READY", "emulogic.ttf", 24, desatRed); 
 	kReadyLabel->Parent(this);
-	kReadyLabel->Pos(Vector2(Graphics::Instance()->SCREEN_WIDTH*0.37f, Graphics::Instance()->SCREEN_HEIGHT*0.5f));
+	kReadyLabel->Pos(Vector2(Graphics::Instance()->SCREEN_WIDTH*0.38f, Graphics::Instance()->SCREEN_HEIGHT*0.5f));
 
 	kReadyLabelOnScreen = kStageLabelOffScreen;
-	kReadyLabelOffScreen = kReadyLabelOnScreen + 3.0f;
+
+	// kReadyLabelOffScreen = kReadyLabelOnScreen + 3.0f;
+	//NOTE(shaw): DEBUGGING 
+	kReadyLabelOffScreen = 0.1f;
 
 	kPlayer = player;
 	
 	kPlayerHit = false; 
-	kPlayerRespawnDelay = 3.0f; 
+
+	// kPlayerRespawnDelay = 3.0f; 
+	//NOTE(shaw): DEBUGGING 
+	kPlayerRespawnDelay = 0.1f;
+
 	kPlayerRespawnTimer = 0.0f; 
-	kPlayerRespawnLabelOnScreen = 2.0f;
+
+	// kPlayerRespawnLabelOnScreen = 2.0f;
+	//NOTE(shaw): DEBUGGING 
+	kPlayerRespawnLabelOnScreen = 0.1f;
 
 	kGameOverLabel = new Texture("GAME OVER", "emulogic.ttf", 24, desatRed); 
 	kGameOverLabel->Parent(this);
-	kGameOverLabel->Pos(Vector2(Graphics::Instance()->SCREEN_WIDTH*0.37f, Graphics::Instance()->SCREEN_HEIGHT*0.5f));
+	kGameOverLabel->Pos(Vector2(Graphics::Instance()->SCREEN_WIDTH*0.38f, Graphics::Instance()->SCREEN_HEIGHT*0.5f));
 
 	kGameOver = false; 
 	kGameOverDelay = 6.0f;
@@ -192,7 +205,7 @@ void Level::Render()
 	else // stage started
 	{	
 		kEnemy->Render(); 
-		
+
 		if (kPlayerHit)
 		{
 			if (kPlayerRespawnTimer >= kPlayerRespawnLabelOnScreen)

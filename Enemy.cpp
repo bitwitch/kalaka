@@ -3,11 +3,19 @@
 std::vector<std::vector<Vector2> > Enemy::sPaths; 
 
 void Enemy::CreatePaths()
-{
+{	
+	int screenMidPoint = Graphics::Instance()->SCREEN_WIDTH*0.38f;
+
 	int currentPath = 0; 
+
+	BezierCurve c0 = { Vector2(screenMidPoint + 50.0f, -10.0f), Vector2(screenMidPoint + 50.0f, -20.0f), Vector2(screenMidPoint + 50.0f, 30.0f), Vector2(screenMidPoint + 50.0f, 20.0f) };
+	BezierCurve c1 = { Vector2(screenMidPoint + 50.0f, 20.0f), Vector2(screenMidPoint + 50.0f, 100.0f), Vector2(75.0f, 325.0f), Vector2(75.0f, 425.0f) };
+	BezierCurve c2 = { Vector2(75.0f, 425.0f), Vector2(75.0f, 650.0f), Vector2(325.0f, 650.0f), Vector2(325.0f, 425.0f) };
+
 	BezierPath* path = new BezierPath(); 
-	BezierCurve curve = { Vector2(500.0f, 10.0f), Vector2(500.0f, 0.0f), Vector2(500.0f, 310.0f), Vector2(500.0f, 300.0f) };
-	path->AddCurve(curve, 1);
+	path->AddCurve(c0, 1);
+	path->AddCurve(c1, 25);
+	path->AddCurve(c2, 25);
 
 	sPaths.push_back(std::vector<Vector2>());
 	path->Sample(&sPaths[currentPath]);
@@ -27,7 +35,7 @@ Enemy::Enemy(int path)
 	kTexture->Scale(4.0f); 
 	kTexture->Pos(VEC2_ZERO); 
 
-	kSpeed = 100.0f; 
+	kSpeed = 300.0f; 
 }
 
 Enemy::~Enemy()
@@ -46,7 +54,8 @@ void Enemy::HandleFlyInState()
 	if (kCurrentWaypoint < sPaths[kCurrentPath].size())
 	{
 		Vector2 dist = sPaths[kCurrentPath][kCurrentWaypoint] - Pos();
-		Translate(dist.Normalized() * kTimer->DeltaTime() * kSpeed); 
+		Translate(dist.Normalized() * kTimer->DeltaTime() * kSpeed, world); 
+		Rotation(atan2(dist.y, dist.x) * RAD_TO_DEG + 90.0f);
 	}
 	else 
 	{

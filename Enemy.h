@@ -19,7 +19,7 @@ private:
 	int kCurrentPath; 
 
 	int kCurrentWaypoint; 
-	const float EPSILON = 5.0f;  
+	const float EPSILON = 8.0f;  
 
 	float kSpeed; 
 
