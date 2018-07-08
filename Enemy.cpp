@@ -39,7 +39,8 @@ Enemy::Enemy(int index, int path, bool challengeStage)
 	kCurrentWaypoint = 1; 
 	Pos(sPaths[kCurrentPath][0]);
 
-	kTexture = NULL; 
+	for (int i=0; i<2; i++)
+		kTextures[i] = NULL; 
 
 	kSpeed = 300.0f; 
 }
@@ -47,8 +48,12 @@ Enemy::Enemy(int index, int path, bool challengeStage)
 Enemy::~Enemy()
 {
 	kTimer = NULL; 
-	delete kTexture; 
-	kTexture = NULL; 
+
+	for (int i=0; i<2; i++)
+	{
+		delete kTextures[i]; 
+		kTextures[i] = NULL; 
+	}
 }
 
 void Enemy::PathComplete()
@@ -136,8 +141,11 @@ void Enemy::Update()
 void Enemy::Render()
 {
 	if (Active())
-	{
-		kTexture->Render(); 
+	{	
+		if (kCurrentState == formation)
+			kTextures[sFormation->GetTick() % 2]->Render();
+		else 
+			kTextures[0]->Render(); 
 
 		// NOTE(shaw): render path for debugging
 		// for (int i=0; i < sPaths[kCurrentPath].size() - 1; i++)

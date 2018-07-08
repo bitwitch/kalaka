@@ -16,7 +16,8 @@ protected:
 	static Formation* sFormation; 
 
 	Timer* kTimer; 
-	Texture* kTexture; 
+
+	Texture* kTextures[2]; 
 
 	STATE kCurrentState; 
 

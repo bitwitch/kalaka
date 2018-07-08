@@ -11,7 +11,7 @@ Formation::Formation()
 	kOffsetDirection = 1; 
 
 	kSpreadTimer = 0.0f; 
-	kSpreadDelay = 1.0f; 
+	kSpreadDelay = 0.6f; 
 	kSpreadCounter = 0; 
 	kSpreadDirection = 1; 
 
@@ -28,6 +28,13 @@ Formation::~Formation()
 Vector2 Formation::GridSize()
 {
 	return kGridSize;
+}
+
+int Formation::GetTick()
+{
+	return (!kLocked || kOffsetCounter != 4) 
+		? kOffsetCounter 
+		: kSpreadCounter;
 }
 
 void Formation::Lock()
@@ -53,5 +60,21 @@ void Formation::Update()
 
 			kOffsetTimer = 0.0f;
 		}
+	}
+	else 
+	{
+		kSpreadTimer += kTimer->DeltaTime(); 
+
+		if (kSpreadTimer >= kSpreadDelay)
+		{
+			kSpreadCounter += kSpreadDirection;
+			kGridSize.x += kSpreadDirection * ((kSpreadCounter % 2) == 0 ? 1 : 2);
+
+			if (kSpreadCounter == 4 || kSpreadCounter == 0)
+				kSpreadDirection *= -1;
+
+			kSpreadTimer = 0.0f; 
+		}
+
 	}
 }

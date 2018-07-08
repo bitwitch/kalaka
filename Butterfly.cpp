@@ -6,10 +6,15 @@ Butterfly::Butterfly(int index, int path, bool challengeStage)
 	if (!challengeStage)
 		kTargetPos = FormationPosition(); 
 
-	kTexture = new Texture("galaga_spritesheet.png", 163, 155, 13, 10); 
-	kTexture->Parent(this); 
-	kTexture->Scale(4.0f); 
-	kTexture->Pos(VEC2_ZERO); 
+	kTextures[0] = new Texture("galaga_spritesheet.png", 163, 155, 13, 10); 
+	kTextures[0]->Parent(this); 
+	kTextures[0]->Scale(4.0f); 
+	kTextures[0]->Pos(VEC2_ZERO); 
+
+	kTextures[1] = new Texture("galaga_spritesheet.png", 187, 155, 13, 10); 
+	kTextures[1]->Parent(this); 
+	kTextures[1]->Scale(4.0f); 
+	kTextures[1]->Pos(VEC2_ZERO); 
 }
 
 Butterfly::~Butterfly()

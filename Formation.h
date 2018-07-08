@@ -32,6 +32,8 @@ public:
 
 	Vector2 GridSize(); 
 
+	int GetTick(); 
+
 	void Lock(); 
 
 	void Update(); 
