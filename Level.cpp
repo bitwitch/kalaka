@@ -71,6 +71,9 @@ Level::Level(int stage, PlayHUD* hud, Player* player)
 	Enemy::SetFormation(kFormation); 
 
 	kButterflyCount = 0; 
+	kWaspCount      = 0; 
+	kBossCount      = 0;
+
 }
 
 Level::~Level()
@@ -173,17 +176,24 @@ void Level::HandlePlayerDeath()
 }
 
 void Level::HandleEnemySpawn()
-{
+{	
+	// spawn butterflies
 	if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_S) && kButterflyCount < MAX_BUTTERFLIES)
-	{
 		kEnemies.push_back(new Butterfly(kButterflyCount++, 0, false));
-	}
+	
+	// spawn wasps
+	if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_D) && kWaspCount < MAX_WASPS)
+		kEnemies.push_back(new Wasp(kWaspCount++, 0, false, false));
+
+	// spawn bosses
+	if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_F) && kBossCount < MAX_BOSSES)
+		kEnemies.push_back(new Boss(kBossCount++, 0, false));
 }
 
 void Level::HandleEnemyFormation()
 {
 	kFormation->Update(); 
-	if (kButterflyCount >= MAX_BUTTERFLIES)
+	if (kButterflyCount >= MAX_BUTTERFLIES && kWaspCount >= MAX_WASPS && kBossCount >= MAX_BOSSES)
 	{	
 		bool flyIn = false; 
 		for (int i=0; i<kEnemies.size(); i++)
@@ -198,7 +208,6 @@ void Level::HandleEnemyFormation()
 		}
 	}
 
-		
 }
 
 Level::LEVEL_STATE Level::State()

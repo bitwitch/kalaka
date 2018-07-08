@@ -6,6 +6,8 @@
 #include "BackgroundStars.h"
 #include "Player.h"
 #include "Butterfly.h"
+#include "Wasp.h"
+#include "Boss.h"
 
 class Level : public GameEntity
 {
@@ -49,6 +51,13 @@ private:
 
 	int kButterflyCount;
 	const int MAX_BUTTERFLIES = 16; 
+
+	int kWaspCount;
+	const int MAX_WASPS = 20; 
+
+	int kBossCount;
+	const int MAX_BOSSES = 4; 
+
 	std::vector<Enemy*> kEnemies;
 
 private: 

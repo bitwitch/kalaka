@@ -41,11 +41,6 @@ Enemy::Enemy(int index, int path, bool challengeStage)
 
 	kTexture = NULL; 
 
-	// kTexture = new Texture("galaga_spritesheet.png", 163, 153, 13, 14); 
-	// kTexture->Parent(this); 
-	// kTexture->Scale(4.0f); 
-	// kTexture->Pos(VEC2_ZERO); 
-
 	kSpeed = 300.0f; 
 }
 
