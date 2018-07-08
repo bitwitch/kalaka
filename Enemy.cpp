@@ -1,6 +1,7 @@
 #include "Enemy.h"
 
 std::vector<std::vector<Vector2> > Enemy::sPaths; 
+Formation* Enemy::sFormation = NULL; 
 
 void Enemy::CreatePaths()
 {	
@@ -22,18 +23,28 @@ void Enemy::CreatePaths()
 	delete path; 
 }
 
-Enemy::Enemy(int path)
+void Enemy::SetFormation(Formation* f)
 {
+	sFormation = f; 
+}
+
+Enemy::Enemy(int index, int path, bool challengeStage)
+{	
+	kIndex = index; 
+	kChallengeStage = challengeStage;
+
 	kTimer = Timer::Instance(); 
 	kCurrentPath = path; 
 	kCurrentState = flyIn; 
-	kCurrentWaypoint = 0; 
-	Pos(sPaths[kCurrentPath][kCurrentWaypoint]);
+	kCurrentWaypoint = 1; 
+	Pos(sPaths[kCurrentPath][0]);
 
-	kTexture = new Texture("galaga_spritesheet.png", 163, 153, 13, 14); 
-	kTexture->Parent(this); 
-	kTexture->Scale(4.0f); 
-	kTexture->Pos(VEC2_ZERO); 
+	kTexture = NULL; 
+
+	// kTexture = new Texture("galaga_spritesheet.png", 163, 153, 13, 14); 
+	// kTexture->Parent(this); 
+	// kTexture->Scale(4.0f); 
+	// kTexture->Pos(VEC2_ZERO); 
 
 	kSpeed = 300.0f; 
 }
@@ -45,37 +56,53 @@ Enemy::~Enemy()
 	kTexture = NULL; 
 }
 
+void Enemy::PathComplete()
+{
+	if (kChallengeStage)
+		kCurrentState = dead;
+}
+
+Vector2 Enemy::FlyInTargetPosition()
+{
+	return sFormation->Pos() + kTargetPos;
+}
+
+void Enemy::FlyInComplete()
+{
+	Pos(FlyInTargetPosition());
+	Rotation(0); 
+	Parent(sFormation); 
+	kCurrentState = formation; 
+}
+
 void Enemy::HandleFlyInState()
 {
-
-	if ( (sPaths[kCurrentPath][kCurrentWaypoint] - Pos()).MagnitudeSqr() < EPSILON )
-		kCurrentWaypoint++;
-
 	if (kCurrentWaypoint < sPaths[kCurrentPath].size())
 	{
 		Vector2 dist = sPaths[kCurrentPath][kCurrentWaypoint] - Pos();
 		Translate(dist.Normalized() * kTimer->DeltaTime() * kSpeed, world); 
 		Rotation(atan2(dist.y, dist.x) * RAD_TO_DEG + 90.0f);
+
+		if ( (sPaths[kCurrentPath][kCurrentWaypoint] - Pos()).MagnitudeSqr() < EPSILON )
+			kCurrentWaypoint++;
+
+		if (kCurrentWaypoint >= sPaths[kCurrentPath].size())
+			PathComplete(); 
 	}
 	else 
 	{
-		kCurrentState = formation; 
+		Vector2 dist = FlyInTargetPosition() - Pos(); 
+		Translate(dist.Normalized() * kTimer->DeltaTime() * kSpeed, world); 
+		Rotation(atan2(dist.y, dist.x) * RAD_TO_DEG + 90.0f);
+
+		if (dist.MagnitudeSqr() < EPSILON)
+			FlyInComplete();
 	}
 }
 
 void Enemy::HandleFormationState()
 {
-	
-}
-
-void Enemy::HandleDiveState()
-{
-	
-}
-
-void Enemy::HandleDeadState()
-{
-	
+	Pos(FormationPosition()); 
 }
 
 void Enemy::HandleStates()
@@ -100,6 +127,11 @@ void Enemy::HandleStates()
 	}
 }
 
+Enemy::STATE Enemy::CurrentState()
+{
+	return kCurrentState; 
+}
+
 void Enemy::Update()
 {
 	if (Active())
@@ -111,9 +143,11 @@ void Enemy::Render()
 	if (Active())
 	{
 		kTexture->Render(); 
-		for (int i=0; i < sPaths[kCurrentPath].size() - 1; i++)
-		{
-			Graphics::Instance()->DrawLine(sPaths[kCurrentPath][i].x, sPaths[kCurrentPath][i].y, sPaths[kCurrentPath][i+1].x, sPaths[kCurrentPath][i+1].y);
-		}
+
+		// NOTE(shaw): render path for debugging
+		// for (int i=0; i < sPaths[kCurrentPath].size() - 1; i++)
+		// {
+		// 	Graphics::Instance()->DrawLine(sPaths[kCurrentPath][i].x, sPaths[kCurrentPath][i].y, sPaths[kCurrentPath][i+1].x, sPaths[kCurrentPath][i+1].y);
+		// }
 	}
 }

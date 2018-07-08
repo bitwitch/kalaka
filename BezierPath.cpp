@@ -1,4 +1,4 @@
-#include " BezierPath.h"
+#include "BezierPath.h"
 
 BezierPath::BezierPath() {}
 

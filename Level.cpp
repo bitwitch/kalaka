@@ -66,7 +66,11 @@ Level::Level(int stage, PlayHUD* hud, Player* player)
 
 	kCurrentState = running; 
 
-	kEnemy = new Enemy(0); 
+	kFormation = new Formation(); 
+	kFormation->Pos(Vector2(Graphics::Instance()->SCREEN_WIDTH*0.38f, 300.0f));
+	Enemy::SetFormation(kFormation); 
+
+	kEnemy = new Butterfly(0, 0, false);
 }
 
 Level::~Level()
@@ -84,6 +88,8 @@ Level::~Level()
 	delete kGameOverLabel;
 	kGameOverLabel = NULL; 
 
+	delete kFormation;
+	kFormation = NULL; 
 	delete kEnemy;
 	kEnemy = NULL; 
 }
@@ -162,6 +168,11 @@ void Level::HandlePlayerDeath()
 	}
 }
 
+void Level::HandleEnemyFormation()
+{
+	kFormation->Update(); 
+}
+
 Level::LEVEL_STATE Level::State()
 {
 	return kCurrentState;
@@ -175,7 +186,10 @@ void Level::Update()
 	}
 	else 
 	{	
+		HandleEnemyFormation(); 
+		
 		kEnemy->Update();
+
 		HandleCollisions();
 
 		if (kPlayerHit)

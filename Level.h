@@ -5,7 +5,7 @@
 #include "PlayHUD.h"
 #include "BackgroundStars.h"
 #include "Player.h"
-#include "Enemy.h"
+#include "Butterfly.h"
 
 class Level : public GameEntity
 {
@@ -45,6 +45,8 @@ private:
 
 	LEVEL_STATE kCurrentState;
 
+	Formation* kFormation;
+
 	Enemy* kEnemy; 
 
 private: 
@@ -52,6 +54,8 @@ private:
 	void HandleStartLabels();
 	void HandleCollisions(); 
 	void HandlePlayerDeath();
+	
+	void HandleEnemyFormation();
 
 public:
 	Level(int stage, PlayHUD* hud, Player* player); 
