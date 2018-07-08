@@ -28,7 +28,7 @@ Star::~Star()
 
 void Star::ScrollStar()
 {
-	Translate(VEC2_UP * kScrollSpeed); 
+	Translate(VEC2_UP * kScrollSpeed, world);
 	Vector2 pos = Pos(local); 
 
 	if (pos.y > Graphics::Instance()->SCREEN_HEIGHT)

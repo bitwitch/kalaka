@@ -20,11 +20,17 @@ Player::Player()
 	kMoveSpeed = 275.0f; 
 	kMoveBounds = Vector2(30.0f, 707.0f);
 
+	// Ship Explosion 
 	kDeathAnimation = new AnimatedTexture("galaga_spritesheet.png", 206, 48, 39, 32, 4, 1.0f, AnimatedTexture::horizontal);
 	kDeathAnimation->Parent(this); 
 	kDeathAnimation->Scale(4.0f); 
 	kDeathAnimation->Pos(VEC2_ONE);
 	kDeathAnimation->WrapMode(AnimatedTexture::once);
+
+	// Bullets
+	for (int i=0; i<MAX_BULLETS; i++)
+		kBullets[i] = new Bullet();
+	
 }
 
 Player::~Player()
@@ -37,17 +43,23 @@ Player::~Player()
 	kShip = NULL; 
 	delete kDeathAnimation;
 	kDeathAnimation = NULL; 
+
+	for (int i=0; i<MAX_BULLETS; i++)
+	{
+		delete kBullets[i];
+		kBullets[i] = NULL;
+	}
 }
 
 void Player::HandleMovement()
 {
 	if (kInput->KeyDown(SDL_SCANCODE_RIGHT))
 	{
-		Translate(VEC2_RIGHT * kMoveSpeed * kTimer->DeltaTime()); 
+		Translate(VEC2_RIGHT * kMoveSpeed * kTimer->DeltaTime(), world); 
 	}
 	else if (kInput->KeyDown(SDL_SCANCODE_LEFT))
 	{
-		Translate(VEC2_LEFT * kMoveSpeed * kTimer->DeltaTime());
+		Translate(VEC2_LEFT * kMoveSpeed * kTimer->DeltaTime(), world);
 	}
 
 	Vector2 pos = Pos(local); 
@@ -58,6 +70,22 @@ void Player::HandleMovement()
 		pos.x = kMoveBounds.y; 
 
 	Pos(pos); 
+}
+
+void Player::HandleFiring()
+{
+	if (kInput->KeyPressed(SDL_SCANCODE_SPACE))
+	{
+		for (int i=0; i<MAX_BULLETS; i++)
+		{
+			if (!kBullets[i]->Active())
+			{
+				kBullets[i]->Fire(Pos());
+				kAudio->PlaySFX("fire.wav");
+				break;
+			}
+		}
+	}
 }
 
 void Player::Visible(bool visible)
@@ -103,8 +131,14 @@ void Player::Update()
 	else
 	{
 		if (Active())
+		{
 			HandleMovement(); 
+			HandleFiring();
+		}
 	}
+
+	for (int i=0; i<MAX_BULLETS; i++)
+		kBullets[i]->Update();
 }
 
 void Player::Render()
@@ -116,4 +150,7 @@ void Player::Render()
 		else 
 			kShip->Render(); 
 	}
+
+	for (int i=0; i<MAX_BULLETS; i++)
+		kBullets[i]->Render();
 }

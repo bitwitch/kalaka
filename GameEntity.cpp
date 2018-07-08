@@ -77,9 +77,12 @@ Vector2 GameEntity::Scale(SPACE space)
 	return scale;  
 }
 
-void GameEntity::Translate(Vector2 vec)
-{
-	kPos += vec; 
+void GameEntity::Translate(Vector2 vec, SPACE space)
+{	
+	if (space == world)
+		kPos += vec; 
+	else 
+		kPos += RotateVector(vec, Rotation()); 
 }
 
 void GameEntity::Rotate(float angle)

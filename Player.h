@@ -4,6 +4,7 @@
 #include "AnimatedTexture.h"
 #include "InputManager.h"
 #include "AudioManager.h"
+#include "Bullet.h"
 
 // using namespace Ather;
 
@@ -27,8 +28,12 @@ private:
 	float kMoveSpeed; 
 	Vector2 kMoveBounds; 
 
+	static const int MAX_BULLETS = 2; 
+	Bullet* kBullets[MAX_BULLETS]; 
+
 private:
 	void HandleMovement(); 
+	void HandleFiring();
 
 public:
 	Player(); 

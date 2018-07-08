@@ -28,7 +28,7 @@ public:
 	void Rotation(float rotation); 
 	float Rotation(SPACE space=world); 
 
-	void Translate(Vector2 vec); 
+	void Translate(Vector2 vec, SPACE space=local); 
 	void Rotate(float angle); 
 
 	void Active(bool active); 
