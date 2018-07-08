@@ -67,10 +67,10 @@ Level::Level(int stage, PlayHUD* hud, Player* player)
 	kCurrentState = running; 
 
 	kFormation = new Formation(); 
-	kFormation->Pos(Vector2(Graphics::Instance()->SCREEN_WIDTH*0.38f, 300.0f));
+	kFormation->Pos(Vector2(Graphics::Instance()->SCREEN_WIDTH*0.38f, 150.0f));
 	Enemy::SetFormation(kFormation); 
 
-	kEnemy = new Butterfly(0, 0, false);
+	kButterflyCount = 0; 
 }
 
 Level::~Level()
@@ -90,8 +90,12 @@ Level::~Level()
 
 	delete kFormation;
 	kFormation = NULL; 
-	delete kEnemy;
-	kEnemy = NULL; 
+	
+	for (int i=0; i<kEnemies.size(); i++)
+	{
+		delete kEnemies[i];
+		kEnemies[i] = NULL; 
+	}
 }
 
 void Level::StartStage()
@@ -168,9 +172,33 @@ void Level::HandlePlayerDeath()
 	}
 }
 
+void Level::HandleEnemySpawn()
+{
+	if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_S) && kButterflyCount < MAX_BUTTERFLIES)
+	{
+		kEnemies.push_back(new Butterfly(kButterflyCount++, 0, false));
+	}
+}
+
 void Level::HandleEnemyFormation()
 {
 	kFormation->Update(); 
+	if (kButterflyCount >= MAX_BUTTERFLIES)
+	{	
+		bool flyIn = false; 
+		for (int i=0; i<kEnemies.size(); i++)
+		{
+			if (kEnemies[i]->CurrentState() == Enemy::flyIn)
+				flyIn = true; 
+		}
+
+		if (!flyIn)
+		{
+			kFormation->Lock();
+		}
+	}
+
+		
 }
 
 Level::LEVEL_STATE Level::State()
@@ -186,9 +214,12 @@ void Level::Update()
 	}
 	else 
 	{	
+		HandleEnemySpawn(); 
+
 		HandleEnemyFormation(); 
 		
-		kEnemy->Update();
+		for (int i=0; i<kEnemies.size(); i++)
+			kEnemies[i]->Update();
 
 		HandleCollisions();
 
@@ -218,7 +249,8 @@ void Level::Render()
 	}
 	else // stage started
 	{	
-		kEnemy->Render(); 
+		for (int i=0; i<kEnemies.size(); i++)
+			kEnemies[i]->Render(); 
 
 		if (kPlayerHit)
 		{

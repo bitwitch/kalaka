@@ -4,8 +4,8 @@ Formation::Formation()
 {
 	kTimer = Timer::Instance(); 
 
-	kOffsetAmount = 30.0f; 
-	kOffsetDelay = 1.0f; 
+	kOffsetAmount = 10.0f; 
+	kOffsetDelay = 0.4f; 
 	kOffsetTimer = 0.0f; 
 	kOffsetCounter = 4;
 	kOffsetDirection = 1; 
@@ -17,7 +17,7 @@ Formation::Formation()
 
 	kLocked = false; 
 
-	kGridSize = Vector2(50.0f, 80.0f);
+	kGridSize = Vector2(32.0f, 64.0f);
 }
 
 Formation::~Formation()
@@ -48,7 +48,7 @@ void Formation::Update()
 			if (kOffsetCounter == 8)
 			{
 				kOffsetCounter = 0; 
-				kOffsetDirection = -1;
+				kOffsetDirection *= -1;
 			}
 
 			kOffsetTimer = 0.0f;

@@ -47,7 +47,9 @@ private:
 
 	Formation* kFormation;
 
-	Enemy* kEnemy; 
+	int kButterflyCount;
+	const int MAX_BUTTERFLIES = 16; 
+	std::vector<Enemy*> kEnemies;
 
 private: 
 	void StartStage(); 
@@ -55,6 +57,8 @@ private:
 	void HandleCollisions(); 
 	void HandlePlayerDeath();
 	
+	void HandleEnemySpawn(); 
+
 	void HandleEnemyFormation();
 
 public:
