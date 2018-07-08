@@ -3,9 +3,6 @@
 Butterfly::Butterfly(int index, int path, bool challengeStage) 
 	: Enemy(index, path, challengeStage)
 {
-	if (!challengeStage)
-		kTargetPos = FormationPosition(); 
-
 	kTextures[0] = new Texture("galaga_spritesheet.png", 163, 155, 13, 10); 
 	kTextures[0]->Parent(this); 
 	kTextures[0]->Scale(4.0f); 
@@ -15,6 +12,8 @@ Butterfly::Butterfly(int index, int path, bool challengeStage)
 	kTextures[1]->Parent(this); 
 	kTextures[1]->Scale(4.0f); 
 	kTextures[1]->Pos(VEC2_ZERO); 
+
+	kType = butterfly;
 }
 
 Butterfly::~Butterfly()
@@ -22,7 +21,7 @@ Butterfly::~Butterfly()
 
 }
 
-Vector2 Butterfly::FormationPosition()
+Vector2 Butterfly::FormationPositionLocal()
 {
 	Vector2 retVal; 
 	// calculate x pos in the formation
@@ -39,8 +38,17 @@ void Butterfly::HandleDiveState()
 
 }
 
-
 void Butterfly::HandleDeadState() 
+{
+	
+}
+
+void Butterfly::RenderDiveState() 
+{
+	
+}
+
+void Butterfly::RenderDeadState() 
 {
 	
 }

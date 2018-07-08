@@ -63,7 +63,7 @@ bool Graphics::Init()
 		return false; 
 	}
 
-	SDL_SetRenderDrawColor(kRenderer, 0x7F, 0x7F, 0x7F, 0xFF); 
+	SDL_SetRenderDrawColor(kRenderer, 0x00, 0x00, 0x00, 0xFF); 
 
 	int flags = IMG_INIT_PNG; 
 	if (!(IMG_Init(flags) & flags))

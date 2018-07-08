@@ -35,7 +35,8 @@ public:
 	int GetTick(); 
 
 	void Lock(); 
-
+	bool Locked();
+	
 	void Update(); 
 	
 };

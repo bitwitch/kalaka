@@ -62,17 +62,25 @@ void Enemy::PathComplete()
 		kCurrentState = dead;
 }
 
-Vector2 Enemy::FlyInTargetPosition()
+void Enemy::JoinFormation()
 {
-	return sFormation->Pos() + kTargetPos;
+	Pos(FormationPositionWorld());
+	Rotation(0); 
+	Parent(sFormation);   
+	kCurrentState = formation; 
+}
+
+Vector2 Enemy::FormationPositionWorld()
+{
+	return sFormation->Pos() + FormationPositionLocal();
 }
 
 void Enemy::FlyInComplete()
 {
-	Pos(FlyInTargetPosition());
-	Rotation(0); 
-	Parent(sFormation); 
-	kCurrentState = formation; 
+	if (kChallengeStage)
+		kCurrentState = dead; 
+	else 
+		JoinFormation(); 
 }
 
 void Enemy::HandleFlyInState()
@@ -91,7 +99,7 @@ void Enemy::HandleFlyInState()
 	}
 	else 
 	{
-		Vector2 dist = FlyInTargetPosition() - Pos(); 
+		Vector2 dist = FormationPositionWorld() - Pos(); 
 		Translate(dist.Normalized() * kTimer->DeltaTime() * kSpeed, world); 
 		Rotation(atan2(dist.y, dist.x) * RAD_TO_DEG + 90.0f);
 
@@ -102,7 +110,7 @@ void Enemy::HandleFlyInState()
 
 void Enemy::HandleFormationState()
 {
-	Pos(FormationPosition()); 
+	Pos(FormationPositionLocal()); 
 }
 
 void Enemy::HandleStates()
@@ -127,9 +135,56 @@ void Enemy::HandleStates()
 	}
 }
 
+void Enemy::RenderFlyInState()
+{
+	kTextures[0]->Render(); 
+}
+
+void Enemy::RenderFormationState()
+{
+	kTextures[sFormation->GetTick() % 2]->Render();
+}
+
+void Enemy::RenderStates()
+{
+	switch(kCurrentState)
+	{
+	case flyIn:
+		RenderFlyInState();
+		break;
+	
+	case formation:
+		RenderFormationState();
+		break;
+
+	case dive:
+		RenderDiveState();
+		break;
+
+	case dead:
+		RenderDeadState();
+		break;
+	}
+}
+
 Enemy::STATE Enemy::CurrentState()
 {
 	return kCurrentState; 
+}
+
+Enemy::TYPE Enemy::Type()
+{
+	return kType;
+}
+
+void Enemy::Dive()
+{	
+	// break away from formation
+	Parent(NULL); 
+
+	kCurrentState = dive; 
+	kDiveStartPos = Pos(); 
+	kCurrentWaypoint = 1; 
 }
 
 void Enemy::Update()
@@ -142,10 +197,7 @@ void Enemy::Render()
 {
 	if (Active())
 	{	
-		if (kCurrentState == formation)
-			kTextures[sFormation->GetTick() % 2]->Render();
-		else 
-			kTextures[0]->Render(); 
+		RenderStates(); 
 
 		// NOTE(shaw): render path for debugging
 		// for (int i=0; i < sPaths[kCurrentPath].size() - 1; i++)

@@ -9,6 +9,7 @@ class Enemy : public GameEntity
 {
 public:
 	enum STATE { flyIn, formation, dive, dead };
+	enum TYPE { butterfly, wasp, boss }; 
 
 protected:
 
@@ -30,23 +31,33 @@ protected:
 
 	int kIndex; 
 
-	Vector2 kTargetPos; 
+	TYPE kType;
 
 	bool kChallengeStage; 
 
+	Vector2 kDiveStartPos; 
+
 protected:
+	virtual void PathComplete();
+	virtual void FlyInComplete();
+
+	void JoinFormation(); 
+	virtual Vector2 FormationPositionWorld();
+	virtual Vector2 FormationPositionLocal() = 0;
+
 	virtual void HandleFlyInState();
 	virtual void HandleFormationState();
 	virtual void HandleDiveState() = 0;
 	virtual void HandleDeadState() = 0;
 
-	virtual void PathComplete();
-	virtual Vector2 FlyInTargetPosition();
-	virtual void FlyInComplete();
-
-	virtual Vector2 FormationPosition() = 0;
-	
 	void HandleStates(); 
+
+	virtual void RenderFlyInState();
+	virtual void RenderFormationState();
+	virtual void RenderDiveState() = 0;
+	virtual void RenderDeadState() = 0;
+	
+	void RenderStates();
 
 public:
 	static void SetFormation(Formation* f); 
@@ -56,6 +67,10 @@ public:
 	virtual ~Enemy();
 
 	STATE CurrentState();
+
+	TYPE Type();
+
+	void Dive();
 
 	void Update(); 
 	void Render(); 

@@ -63,12 +63,14 @@ private:
 private: 
 	void StartStage(); 
 	void HandleStartLabels();
+	
 	void HandleCollisions(); 
 	void HandlePlayerDeath();
 	
 	void HandleEnemySpawn(); 
-
 	void HandleEnemyFormation();
+	void HandleEnemyDiving();
+
 
 public:
 	Level(int stage, PlayHUD* hud, Player* player); 

@@ -207,6 +207,24 @@ void Level::HandleEnemyFormation()
 			kFormation->Lock();
 		}
 	}
+}
+
+void Level::HandleEnemyDiving()
+{
+	if (kFormation->Locked())
+	{
+		if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_V))
+		{
+			for (int i = kEnemies.size() - 1; i >= 0; i--)
+			{
+				if (kEnemies[i]->Type() == Enemy::wasp && kEnemies[i]->CurrentState() == Enemy::formation)
+				{
+					kEnemies[i]->Dive();
+					break;
+				}
+			}
+		}
+	}
 
 }
 
@@ -224,8 +242,8 @@ void Level::Update()
 	else 
 	{	
 		HandleEnemySpawn(); 
-
 		HandleEnemyFormation(); 
+		HandleEnemyDiving(); 
 		
 		for (int i=0; i<kEnemies.size(); i++)
 			kEnemies[i]->Update();

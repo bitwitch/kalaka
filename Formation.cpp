@@ -32,7 +32,7 @@ Vector2 Formation::GridSize()
 
 int Formation::GetTick()
 {
-	return (!kLocked || kOffsetCounter != 4) 
+	return (!kLocked || kOffsetCounter != 4)
 		? kOffsetCounter 
 		: kSpreadCounter;
 }
@@ -40,6 +40,11 @@ int Formation::GetTick()
 void Formation::Lock()
 {
 	kLocked = true; 
+}
+
+bool Formation::Locked()
+{
+	return kLocked && kOffsetCounter == 4; 
 }
 
 void Formation::Update()

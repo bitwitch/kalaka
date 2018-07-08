@@ -3,9 +3,6 @@
 Boss::Boss(int index, int path, bool challengeStage) 
 	: Enemy(index, path, challengeStage)
 {
-	if (!challengeStage)
-		kTargetPos = FormationPosition(); 
-
 	kTextures[0] = new Texture("galaga_spritesheet.png", 162, 104, 15, 16); 
 	kTextures[0]->Parent(this); 
 	kTextures[0]->Scale(4.0f); 
@@ -15,6 +12,8 @@ Boss::Boss(int index, int path, bool challengeStage)
 	kTextures[1]->Parent(this);
 	kTextures[1]->Scale(4.0f);
 	kTextures[1]->Pos(VEC2_ZERO); 
+
+	kType = boss; 
 }
 
 Boss::~Boss()
@@ -22,7 +21,7 @@ Boss::~Boss()
 
 }
 
-Vector2 Boss::FormationPosition()
+Vector2 Boss::FormationPositionLocal()
 {
 	Vector2 retVal; 
 	// calculate x pos in the formation
@@ -39,8 +38,17 @@ void Boss::HandleDiveState()
 
 }
 
-
 void Boss::HandleDeadState() 
 {
 	
+}
+
+void Boss::RenderDiveState() 
+{
+
+}
+
+void Boss::RenderDeadState() 
+{
+
 }

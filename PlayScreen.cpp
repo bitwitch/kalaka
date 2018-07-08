@@ -28,7 +28,8 @@ PlayScreen::PlayScreen()
 	kPlayer = NULL;
 
 	// enemy paths are created only once as playscreen is created only once
-	Enemy::CreatePaths(); 
+	Enemy::CreatePaths();
+	Wasp::CreateDivePaths();  
 }
 
 PlayScreen::~PlayScreen()
