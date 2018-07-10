@@ -19,9 +19,9 @@ PlayScreen::PlayScreen()
 
 	kLevel = NULL; 
 
-	// kLevelStartDelay = 1.0f; 
+	kLevelStartDelay = 1.0f; 
 	// NOTE(shaw): DEBUGGING
-	kLevelStartDelay = 0.1f; 
+	// kLevelStartDelay = 0.1f; 
 
 	kLevelStarted = false; 
 
@@ -69,7 +69,7 @@ void PlayScreen::StartNewGame()
 	kCurrentStage = 0;
 
 	//NOTE(shaw): DEBUGGING
-	// kAudio->PlayMusic("startlevel.wav", 0); 
+	kAudio->PlayMusic("startlevel.wav", 0); 
 }
 
 void PlayScreen::StartNextLevel()

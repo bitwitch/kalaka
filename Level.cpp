@@ -27,9 +27,9 @@ Level::Level(int stage, PlayHUD* hud, Player* player)
 
 	kStageLabelOnScreen = 0.0f; 
 
-	// kStageLabelOffScreen = 1.5f;
+	kStageLabelOffScreen = 1.5f;
 	//NOTE(shaw): DEBUGGING 
-	kStageLabelOffScreen = 0.1f;
+	// kStageLabelOffScreen = 0.1f;
 	
 	kReadyLabel = new Texture("READY", "emulogic.ttf", 24, desatRed); 
 	kReadyLabel->Parent(this);
@@ -37,23 +37,23 @@ Level::Level(int stage, PlayHUD* hud, Player* player)
 
 	kReadyLabelOnScreen = kStageLabelOffScreen;
 
-	// kReadyLabelOffScreen = kReadyLabelOnScreen + 3.0f;
+	kReadyLabelOffScreen = kReadyLabelOnScreen + 3.0f;
 	//NOTE(shaw): DEBUGGING 
-	kReadyLabelOffScreen = 0.1f;
+	// kReadyLabelOffScreen = 0.1f;
 
 	kPlayer = player;
 	
 	kPlayerHit = false; 
 
-	// kPlayerRespawnDelay = 3.0f; 
+	kPlayerRespawnDelay = 3.0f; 
 	//NOTE(shaw): DEBUGGING 
-	kPlayerRespawnDelay = 0.1f;
+	// kPlayerRespawnDelay = 0.1f;
 
 	kPlayerRespawnTimer = 0.0f; 
 
-	// kPlayerRespawnLabelOnScreen = 2.0f;
+	kPlayerRespawnLabelOnScreen = 2.0f;
 	//NOTE(shaw): DEBUGGING 
-	kPlayerRespawnLabelOnScreen = 0.1f;
+	// kPlayerRespawnLabelOnScreen = 0.1f;
 
 	kGameOverLabel = new Texture("GAME OVER", "emulogic.ttf", 24, desatRed); 
 	kGameOverLabel->Parent(this);
