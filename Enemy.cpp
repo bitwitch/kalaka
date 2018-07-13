@@ -177,7 +177,12 @@ Enemy::TYPE Enemy::Type()
 	return kType;
 }
 
-void Enemy::Dive()
+int Enemy::Index() 
+{
+	return kIndex; 
+}
+
+void Enemy::Dive(int type)
 {	
 	// break away from formation
 	Parent(NULL); 

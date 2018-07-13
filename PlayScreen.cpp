@@ -19,9 +19,9 @@ PlayScreen::PlayScreen()
 
 	kLevel = NULL; 
 
-	kLevelStartDelay = 1.0f; 
+	// kLevelStartDelay = 1.0f; 
 	// NOTE(shaw): DEBUGGING
-	// kLevelStartDelay = 0.1f; 
+	kLevelStartDelay = 0.1f; 
 
 	kLevelStarted = false; 
 
@@ -30,6 +30,7 @@ PlayScreen::PlayScreen()
 	// enemy paths are created only once as playscreen is created only once
 	Enemy::CreatePaths();
 	Wasp::CreateDivePaths();  
+	Butterfly::CreateDivePaths();  
 }
 
 PlayScreen::~PlayScreen()
@@ -69,7 +70,7 @@ void PlayScreen::StartNewGame()
 	kCurrentStage = 0;
 
 	//NOTE(shaw): DEBUGGING
-	kAudio->PlayMusic("startlevel.wav", 0); 
+	// kAudio->PlayMusic("startlevel.wav", 0); 
 }
 
 void PlayScreen::StartNextLevel()

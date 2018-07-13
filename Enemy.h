@@ -12,7 +12,6 @@ public:
 	enum TYPE { butterfly, wasp, boss }; 
 
 protected:
-
 	static std::vector<std::vector<Vector2> > sPaths;
 	static Formation* sFormation; 
 
@@ -69,8 +68,9 @@ public:
 	STATE CurrentState();
 
 	TYPE Type();
+	int Index(); 
 
-	void Dive();
+	virtual void Dive(int type=0);
 
 	void Update(); 
 	void Render(); 
