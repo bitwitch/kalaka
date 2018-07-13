@@ -29,8 +29,9 @@ PlayScreen::PlayScreen()
 
 	// enemy paths are created only once as playscreen is created only once
 	Enemy::CreatePaths();
-	Wasp::CreateDivePaths();  
-	Butterfly::CreateDivePaths();  
+	Wasp::CreateDivePaths();
+	Butterfly::CreateDivePaths();
+	Boss::CreateDivePaths();
 }
 
 PlayScreen::~PlayScreen()
