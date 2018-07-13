@@ -250,6 +250,18 @@ void Level::HandleEnemyDiving()
 				if (kEnemies[i]->Type() == Enemy::boss && kEnemies[i]->CurrentState() == Enemy::formation)
 				{
 					kEnemies[i]->Dive();
+					int index = kEnemies[i]->Index(); 
+					int firstEscortIndex = (index % 2 == 0) ? (index * 2) : (index * 2 - 1);
+					int secondEscortIndex = firstEscortIndex + 4; 
+
+					for (int j=0; j<kEnemies.size(); j++)
+					{
+						if (kEnemies[j]->Type() == Enemy::butterfly && kEnemies[j]->CurrentState() == Enemy::formation 
+							&& (kEnemies[j]->Index() == firstEscortIndex || kEnemies[j]->Index() == secondEscortIndex))
+						{
+							kEnemies[j]->Dive(1); // escort dive
+						}
+					}
 					break;
 				}
 			}

@@ -4,6 +4,7 @@ std::vector<std::vector<Vector2> > Butterfly::sDivePaths;
 
 void Butterfly::CreateDivePaths()
 {
+	// regular dive paths
 	int currentPath = 0; 
 
 	BezierCurve r0 = { Vector2(0.0f, 0.0f), Vector2(0.0f, -45.0f), Vector2(-60.0f, -45.0f), Vector2(-60.0f, 0.0f) };
@@ -45,6 +46,50 @@ void Butterfly::CreateDivePaths()
 	path->Sample(&sDivePaths[currentPath]); 
 	delete path; 
 
+	// escort paths
+	currentPath = 2; 
+
+	BezierCurve el0 = { Vector2(0.0f, 0.0f), Vector2(0.0f, -60.0f), Vector2(-90.0f, -60.0f), Vector2(-90.0f, 0.0f) };
+	BezierCurve el1 = { Vector2(-90.0f, 0.0f), Vector2(-90.0f, 60.0f), Vector2(-100.0f, 272.0f), Vector2(-15.0f, 275.0f) };
+	BezierCurve el2 = { Vector2(-15.0f, 275.0f), Vector2(85.0f, 275.0f), Vector2(85.0f, 125.0f), Vector2(-15.0f, 125.0f) };
+	BezierCurve el3 = { Vector2(-15.0f, 125.0f), Vector2(-175.0f, 125.0f), Vector2(0.0f, 450.0f), Vector2(120.0f, 450.0f) };
+	BezierCurve el4 = { Vector2(120.0f, 450.0f), Vector2(160.0f, 450.0f), Vector2(200.0f, 500.0f), Vector2(200.0f, 550.0f) };
+	BezierCurve el5 = { Vector2(200.0f, 550.0f), Vector2(200.0f, 540.0f), Vector2(200.0f, 800.0f), Vector2(200.0f, 790.0f) };
+
+	path = new BezierPath(); 
+
+	path->AddCurve(el0, 15); 
+	path->AddCurve(el1, 15);
+	path->AddCurve(el2, 15); 
+	path->AddCurve(el3, 25);
+	path->AddCurve(el4, 15);
+	path->AddCurve(el5, 1);
+
+	sDivePaths.push_back(std::vector<Vector2>());
+	path->Sample(&sDivePaths[currentPath]); 
+	delete path; 
+
+	currentPath = 3; 
+
+	BezierCurve er0 = { Vector2(0.0f, 0.0f), Vector2(0.0f, -60.0f), Vector2(90.0f, -60.0f), Vector2(90.0f, 0.0f) };
+	BezierCurve er1 = { Vector2(90.0f, 0.0f), Vector2(90.0f, 60.0f), Vector2(100.0f, 272.0f), Vector2(15.0f, 275.0f) };
+	BezierCurve er2 = { Vector2(15.0f, 275.0f), Vector2(-85.0f, 275.0f), Vector2(-85.0f, 125.0f), Vector2(15.0f, 125.0f) };
+	BezierCurve er3 = { Vector2(15.0f, 125.0f), Vector2(175.0f, 125.0f), Vector2(0.0f, 450.0f), Vector2(-120.0f, 450.0f) };
+	BezierCurve er4 = { Vector2(-120.0f, 450.0f), Vector2(-160.0f, 450.0f), Vector2(-200.0f, 500.0f), Vector2(-200.0f, 550.0f) };
+	BezierCurve er5 = { Vector2(-200.0f, 550.0f), Vector2(-200.0f, 540.0f), Vector2(-200.0f, 800.0f), Vector2(-200.0f, 790.0f) };
+
+	path = new BezierPath(); 
+
+	path->AddCurve(er0, 15); 
+	path->AddCurve(er1, 15);
+	path->AddCurve(er2, 15); 
+	path->AddCurve(er3, 25);
+	path->AddCurve(er4, 15);
+	path->AddCurve(er5, 1);
+
+	sDivePaths.push_back(std::vector<Vector2>());
+	path->Sample(&sDivePaths[currentPath]); 
+	delete path; 
 
 }
 
