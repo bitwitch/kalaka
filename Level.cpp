@@ -224,10 +224,7 @@ void Level::HandleEnemyDiving()
 				}
 			}
 		}
-	}
-
-	if (kFormation->Locked())
-	{
+	
 		if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_B))
 		{
 			for (int i = kEnemies.size() - 1; i >= 0; i--)
@@ -239,10 +236,7 @@ void Level::HandleEnemyDiving()
 				}
 			}
 		}
-	}
-
-	if (kFormation->Locked())
-	{
+	
 		if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_H))
 		{
 			for (int i = kEnemies.size() - 1; i >= 0; i--)
@@ -266,8 +260,20 @@ void Level::HandleEnemyDiving()
 				}
 			}
 		}
-	}
 
+		if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_W))
+		{
+			for (int i = kEnemies.size() - 1; i >= 0; i--)
+			{
+				if (kEnemies[i]->Type() == Enemy::boss && kEnemies[i]->CurrentState() == Enemy::formation)
+				{
+					kEnemies[i]->Dive(1); // capturing dive
+					break;
+				}
+			}
+		}
+
+	}
 }
 
 Level::LEVEL_STATE Level::State()

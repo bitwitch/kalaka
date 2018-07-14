@@ -23,6 +23,34 @@
 
 AnimatedTexture::~AnimatedTexture() {}
 
+void AnimatedTexture::RunAnimation()
+{
+	kAnimationTimer += kTimer->DeltaTime(); 
+
+	if (kAnimationTimer >= kAnimationSpeed)
+	{
+		if (kWrapMode == loop) 
+		{
+			kAnimationTimer -= kAnimationSpeed;
+			// kAnimationTimer = 0.0f;
+		}
+		else 
+		{
+			kAnimationDone = true; 
+			kAnimationTimer = kAnimationSpeed - kTimePerFrame;
+		}
+	}
+
+	if (kAnimationDirection == horizontal)
+	{
+		kClipRect.x = kStartX + (int)(kAnimationTimer / kTimePerFrame) * kWidth; 
+	}
+	else 
+	{	
+		kClipRect.y = kStartY + (int)(kAnimationTimer / kTimePerFrame) * kHeight; 
+	}
+}
+
 void AnimatedTexture::WrapMode(WRAP_MODE mode) 
 {
 	kWrapMode = mode; 
@@ -41,33 +69,7 @@ bool AnimatedTexture::IsAnimating()
 
 void AnimatedTexture::Update() 
 {
-	
-	if (!kAnimationDone)
-	{
-		kAnimationTimer += kTimer->DeltaTime(); 
-
-		if (kAnimationTimer >= kAnimationSpeed)
-		{
-			if (kWrapMode == loop) 
-			{
-				kAnimationTimer -= kAnimationSpeed;
-				// kAnimationTimer = 0.0f;
-			}
-			else 
-			{
-				kAnimationDone = true; 
-				kAnimationTimer = kAnimationSpeed - kTimePerFrame;
-			}
-		}
-
-		if (kAnimationDirection == horizontal)
-		{
-			kClipRect.x = kStartX + (int)(kAnimationTimer / kTimePerFrame) * kWidth; 
-		}
-		else 
-		{	
-			kClipRect.y = kStartY + (int)(kAnimationTimer / kTimePerFrame) * kHeight; 
-		}
-	}
+	if (!kAnimationDone) 
+		RunAnimation();
 }
 

@@ -48,6 +48,35 @@ void Boss::CreateDivePaths()
 	sDivePaths.push_back(std::vector<Vector2>());
 	path->Sample(&sDivePaths[currentPath]); 
 	delete path;
+
+	// Capture Dive Paths
+	currentPath = 2; 
+
+	BezierCurve cl0 = { Vector2(0.0f, 0.0f), Vector2(0.0f, -60.0f), Vector2(-90.0f, -60.0f), Vector2(-90.0f, 0.0f) };
+	BezierCurve cl1 = { Vector2(-90.0f, 0.0f), Vector2(-90.0f, 60.0f), Vector2(100.0f, 340.0f), Vector2(100.0f, 400.0f) };
+
+	path = new BezierPath(); 
+
+	path->AddCurve(cl0, 15); 
+	path->AddCurve(cl1, 15);
+
+	sDivePaths.push_back(std::vector<Vector2>());
+	path->Sample(&sDivePaths[currentPath]); 
+	delete path;
+
+	currentPath = 3; 
+
+	BezierCurve rl0 = { Vector2(0.0f, 0.0f), Vector2(0.0f, -60.0f), Vector2(90.0f, -60.0f), Vector2(90.0f, 0.0f) };
+	BezierCurve rl1 = { Vector2(90.0f, 0.0f), Vector2(90.0f, 60.0f), Vector2(-100.0f, 340.0f), Vector2(-100.0f, 400.0f) };
+
+	path = new BezierPath(); 
+
+	path->AddCurve(rl0, 15); 
+	path->AddCurve(rl1, 15);
+
+	sDivePaths.push_back(std::vector<Vector2>());
+	path->Sample(&sDivePaths[currentPath]); 
+	delete path;
 }
 
 Boss::Boss(int index, int path, bool challengeStage) 
@@ -64,11 +93,21 @@ Boss::Boss(int index, int path, bool challengeStage)
 	kTextures[1]->Pos(VEC2_ZERO); 
 
 	kType = boss; 
+	kCurrentPath = 1; 
+	kCaptureDive = false; 
+	kCapturing = false;
+
+	kCaptureBeam = new CaptureBeam(); 
+	kCaptureBeam->Scale(4.0f); 
+	kCaptureBeam->Parent(this); 
+	kCaptureBeam->Pos(Vector2(0.0f, -190.0f));
+	kCaptureBeam->Rotation(180.0f); 
 }
 
 Boss::~Boss()
 {
-
+	delete kCaptureBeam; 
+	kCaptureBeam = NULL;
 }
 
 Vector2 Boss::FormationPositionLocal()
@@ -85,13 +124,10 @@ Vector2 Boss::FormationPositionLocal()
 
 void Boss::HandleDiveState() 
 {
-	int currentPath = kIndex % 2;
-
-	if (kCapture) currentPath += 2; 
-
-	if (kCurrentWaypoint < sDivePaths[currentPath].size())
+	
+	if (kCurrentWaypoint < sDivePaths[kCurrentPath].size())
 	{
-		Vector2 waypointPos = kDiveStartPos + sDivePaths[currentPath][kCurrentWaypoint];
+		Vector2 waypointPos = kDiveStartPos + sDivePaths[kCurrentPath][kCurrentWaypoint];
 		Vector2 dist = waypointPos - Pos(); 
 		Translate(dist.Normalized() * kTimer->DeltaTime() * kSpeed, world);
 		Rotation(atan2(dist.y, dist.x) * RAD_TO_DEG + 90.0f); 
@@ -99,19 +135,36 @@ void Boss::HandleDiveState()
 		if ( (waypointPos - Pos()).MagnitudeSqr() < EPSILON )
 			kCurrentWaypoint++;
 
-		if (kCurrentWaypoint == sDivePaths[currentPath].size())
+		if (kCurrentWaypoint == sDivePaths[kCurrentPath].size())
 		{
-			Pos(Vector2(FormationPositionWorld().x, 20.0f));
+			if (kCaptureDive)
+			{
+				kCapturing = true; 
+				Rotation(180.0f); 
+			}
+			else 
+			{
+				Pos(Vector2(FormationPositionWorld().x, -20.0f));
+			}
 		}
 	}
 	else
 	{
-		Vector2 dist = FormationPositionWorld() - Pos(); 
-		Translate(dist.Normalized() * kTimer->DeltaTime() * kSpeed, world);
-		Rotation(atan2(dist.y, dist.x) * RAD_TO_DEG + 90.0f); 
+		if (!kCaptureDive || !kCapturing)
+		{
+			Vector2 dist = FormationPositionWorld() - Pos(); 
+			Translate(dist.Normalized() * kTimer->DeltaTime() * kSpeed, world);
+			Rotation(atan2(dist.y, dist.x) * RAD_TO_DEG + 90.0f); 
 
-		if (dist.MagnitudeSqr() < EPSILON)
-			JoinFormation(); 
+			if (dist.MagnitudeSqr() < EPSILON)
+			{
+				JoinFormation(); 
+			}
+		}
+		else 
+		{
+			HandleCaptureBeam(); 
+		}
 	}
 }
 
@@ -120,23 +173,34 @@ void Boss::HandleDeadState()
 	
 }
 
+void Boss::HandleCaptureBeam()
+{
+	kCaptureBeam->Update(); 
+
+	if (!kCaptureBeam->IsAnimating())
+	{
+		Translate(VEC2_UP * kSpeed * kTimer->DeltaTime(), world); 
+		if (Pos().y >= Graphics::Instance()->SCREEN_HEIGHT)
+			Pos(Vector2(FormationPositionWorld().x, -20.0f)); 
+	}
+}
+
 void Boss::RenderDiveState() 
 {
 	kTextures[0]->Render(); 
 
-	int currentPath = kIndex % 2;
-
-	if (kCapture) currentPath += 2; 
-
-	for (int i=0; i < sDivePaths[currentPath].size() - 1; i++)
+	for (int i=0; i < sDivePaths[kCurrentPath].size() - 1; i++)
 	{
 		Graphics::Instance()->DrawLine(
-			kDiveStartPos.x + sDivePaths[currentPath][i].x, 
-			kDiveStartPos.y + sDivePaths[currentPath][i].y, 
-			kDiveStartPos.x + sDivePaths[currentPath][i+1].x, 
-			kDiveStartPos.y + sDivePaths[currentPath][i+1].y
+			kDiveStartPos.x + sDivePaths[kCurrentPath][i].x, 
+			kDiveStartPos.y + sDivePaths[kCurrentPath][i].y, 
+			kDiveStartPos.x + sDivePaths[kCurrentPath][i+1].x, 
+			kDiveStartPos.y + sDivePaths[kCurrentPath][i+1].y
 			);
 	}
+
+	if (kCapturing && kCaptureBeam->IsAnimating())
+		kCaptureBeam->Render();
 }
 
 void Boss::RenderDeadState() 
@@ -146,6 +210,16 @@ void Boss::RenderDeadState()
 
 void Boss::Dive(int type)
 {
-	kCapture = (type != 0);
+	kCaptureDive = (type != 0);
 	Enemy::Dive();
+
+	if (kCaptureDive)
+	{
+		kCapturing = false; 
+		kCurrentPath = 2 + rand() % 2; 
+	}
+	else 
+	{
+		kCurrentPath = kIndex % 2;
+	}
 }

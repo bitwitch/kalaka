@@ -144,7 +144,7 @@ void Butterfly::HandleDiveState()
 
 		if (kCurrentWaypoint == sDivePaths[currentPath].size())
 		{
-			Pos(Vector2(FormationPositionWorld().x, 20.0f));
+			Pos(Vector2(FormationPositionWorld().x, -20.0f));
 		}
 	}
 	else
