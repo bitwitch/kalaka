@@ -139,10 +139,11 @@ void Boss::HandleDiveState()
 		{
 			if (kCaptureDive)
 			{
-				kCapturing = true; 
-				Rotation(180.0f); 
+				printf("setting kCapturing to true");
+				kCapturing = true;
+				Rotation(180.0f);
 			}
-			else 
+			else
 			{
 				Pos(Vector2(FormationPositionWorld().x, -20.0f));
 			}
@@ -150,6 +151,7 @@ void Boss::HandleDiveState()
 	}
 	else
 	{
+		printf("kCapturing: %s\n", (kCapturing ? "true" : "false")); 
 		if (!kCaptureDive || !kCapturing)
 		{
 			Vector2 dist = FormationPositionWorld() - Pos(); 
@@ -214,7 +216,8 @@ void Boss::Dive(int type)
 	Enemy::Dive();
 
 	if (kCaptureDive)
-	{
+	{	
+		printf("setting kCapturing to false\n");
 		kCapturing = false; 
 		kCurrentPath = 2 + rand() % 2; 
 	}
